@@ -16,8 +16,8 @@ public abstract class Character {
     
     private int m_id;
     private String m_name;
-    private int m_health;
-    private int m_mana;
+    private int m_hp;
+    private int m_mp;
     private Race m_race;
     
     public Character(String name, Race race)
@@ -33,41 +33,44 @@ public abstract class Character {
     // Returns true if move was successful, false otherwise.
     public abstract boolean move();
 
+    // Returns true if attack was successful, false otherwise.
+    public abstract boolean attack();
+
     // Default changeHP, can be overridden by concrete classes -- eg. some races might have tougher skin, etc.
     public void changeHP( int value ) {
-        m_health= m_health+value;
+        m_hp = m_hp +value;
         
-        if( m_health>=MAXIMUM_HP )
+        if( m_hp >=MAXIMUM_HP )
         {
-            m_health= 100;
+            m_hp = 100;
         }
         else if( isDead() )
         {
-            m_health= 0;
+            m_hp = 0;
         }
     }
 
     // Default changeHP, can be overridden by concrete classes -- eg. some races might be magicians, etc.
     public void changeMP( int value ) {
-        m_mana= m_mana+value;
+        m_mp = m_mp +value;
 
-        if( m_mana>=MAXIMUM_MP )
+        if( m_mp >=MAXIMUM_MP )
         {
-            m_mana= 100;
+            m_mp = 100;
         }
         else if( isOOM() )
         {
-            m_mana= 0;
+            m_mp = 0;
         }
     }
 
     public boolean isDead() {
-        return m_health <= MINIMUM_HP;
+        return m_hp <= MINIMUM_HP;
     }
 
     // is Out Of Mana (OOM)
     public boolean isOOM() {
-        return m_mana <= MINIMUM_MP;
+        return m_mp <= MINIMUM_MP;
     }
     
     public String getName()

@@ -7,13 +7,18 @@
  */
 public class Hero extends Character {
 
-    public Hero(String name, Race race) {
+    public Hero( String name, Race race ) {
         super(name, race);
     }
 
     @Override
     public boolean move() {
         //How does a hero move?
+        return true;
+    }
+
+    @Override
+    public boolean attack() {
         return true;
     }
 }
