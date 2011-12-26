@@ -7,11 +7,11 @@
  */
 public class Map {
     //Represents the map where Character and Terrain objects are placed on.
-    private final static int MIN_X=0;
-    private final static int MAX_X= 1000;
-    
-    private final static int MIN_Y= 0;
-    private final static int MAX_Y= 1000;
+    public final static int MIN_X=0;
+    public final static int MAX_X= 1000;
+
+    public final static int MIN_Y= 0;
+    public final static int MAX_Y= 1000;
 
     private static MapObject[][] m_map;
     
@@ -21,8 +21,7 @@ public class Map {
 
     public boolean placeTerrain( Terrain terrain, int x, int y )
     {
-        if( x>=MIN_X && x<=MAX_X &&
-                y>=MIN_Y && y<=MAX_Y )
+        if( isValidCoordinate( x, y ) )
         {
             if( m_map[x][y].getTerrain()==null )
             {
@@ -57,6 +56,11 @@ public class Map {
                 return true;
             }
         }
+    }
 
+    public static boolean isValidCoordinate( int x, int  y )
+    {
+        return x >= MIN_X && x <= MAX_X &&
+                y >= MIN_Y && y <= MAX_Y;
     }
 }

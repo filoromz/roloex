@@ -20,6 +20,9 @@ public abstract class Character {
     private int m_mp;
     private Race m_race;
     
+    protected int m_positionX;
+    protected int m_positionY;
+    
     public Character(String name, Race race)
     {
         m_id= m_globalId;
@@ -28,19 +31,33 @@ public abstract class Character {
 
         // increment the global id
         m_globalId++;
+
+        // randomly place him somwhere!
+        m_positionX= (int) ( Math.random() * Map.MAX_X );
+        m_positionY= (int) ( Math.random() * Map.MAX_Y );
+    }
+    
+    public int getPositionX()
+    {
+        return m_positionX;
+    }
+    
+    public int getPositionY()
+    {
+        return m_positionY;
     }
     
     // Returns true if move was successful, false otherwise.
-    public abstract boolean move();
+    public abstract boolean move( Direction direction, int distance );
 
     // Returns true if attack was successful, false otherwise.
     public abstract boolean attack();
 
     // Default changeHP, can be overridden by concrete classes -- eg. some races might have tougher skin, etc.
     public void changeHP( int value ) {
-        m_hp = m_hp +value;
+        m_hp = m_hp + value;
         
-        if( m_hp >=MAXIMUM_HP )
+        if( m_hp>=MAXIMUM_HP )
         {
             m_hp = 100;
         }
@@ -52,7 +69,7 @@ public abstract class Character {
 
     // Default changeHP, can be overridden by concrete classes -- eg. some races might be magicians, etc.
     public void changeMP( int value ) {
-        m_mp = m_mp +value;
+        m_mp = m_mp + value;
 
         if( m_mp >=MAXIMUM_MP )
         {
