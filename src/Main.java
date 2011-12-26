@@ -11,7 +11,7 @@ public class Main {
         Character character= new Hero( "Rommel", Race.HUMAN );
         System.out.println( "My position= " + character.getPositionX() + " " + character.getPositionY() );
         System.out.println( "Moving " + args[0] + " places to the left:" );
-        
+        System.out.println( "Hello" );
         character.move( Direction.LEFT, Integer.parseInt( args[0] ) );
 
         System.out.println( "My position= " + character.getPositionX() + " " + character.getPositionY() );
