@@ -15,6 +15,5 @@ public class Main {
         character.move( Direction.LEFT, Integer.parseInt( args[0] ) );
 
         System.out.println( "My position= " + character.getPositionX() + " " + character.getPositionY() );
-        
     }
 }
