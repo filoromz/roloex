@@ -7,15 +7,30 @@
  */
 public class ForestTerrain extends Terrain {
     public static final TerrainType m_type= TerrainType.FOREST;
-
+    public static final int MOVEMENT_PENALTY= -1;
+    public static final int DEFENCE_PENALTY= -1;
+    public static final MonsterType[] MONSTER_SPAWN_TYPE= {
+            MonsterType.MEDIUM,
+            MonsterType.SEMI_STRONG,
+    };
+    
     public ForestTerrain() {
         super( m_type );
     }
 
-    /**
-     * Ideas:
-     * Slow movement, Penalty of -1 movement
-     * Spawns medium-strong monsters
-     * Maybe decrease HP by 1 everytime they are in a ForestTerrain
-     */
+    @Override
+    public int movementPenalty() {
+        return MOVEMENT_PENALTY;
+    }
+
+    @Override
+    public int defencePenalty() {
+        return DEFENCE_PENALTY;
+    }
+
+    @Override
+    public MonsterType[] getMonsterSpawnTypes() {
+        return MONSTER_SPAWN_TYPE;
+    }
+
 }

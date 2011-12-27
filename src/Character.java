@@ -19,6 +19,7 @@ public abstract class Character {
     private int m_hp;
     private int m_mp;
     private Race m_race;
+    private int m_defence;
     
     protected int m_positionX;
     protected int m_positionY;
@@ -55,29 +56,29 @@ public abstract class Character {
 
     // Default changeHP, can be overridden by concrete classes -- eg. some races might have tougher skin, etc.
     public void changeHP( int value ) {
-        m_hp = m_hp + value;
+        m_hp= m_hp + value;
         
         if( m_hp>=MAXIMUM_HP )
         {
-            m_hp = 100;
+            m_hp= MAXIMUM_HP;
         }
         else if( isDead() )
         {
-            m_hp = 0;
+            m_hp= MINIMUM_HP;
         }
     }
 
     // Default changeHP, can be overridden by concrete classes -- eg. some races might be magicians, etc.
     public void changeMP( int value ) {
-        m_mp = m_mp + value;
+        m_mp= m_mp + value;
 
-        if( m_mp >=MAXIMUM_MP )
+        if( m_mp>=MAXIMUM_MP )
         {
-            m_mp = 100;
+            m_mp= MAXIMUM_MP;
         }
         else if( isOOM() )
         {
-            m_mp = 0;
+            m_mp= MINIMUM_MP;
         }
     }
 

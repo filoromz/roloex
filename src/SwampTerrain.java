@@ -7,15 +7,29 @@
  */
 public class SwampTerrain extends Terrain {
     public static final TerrainType m_type= TerrainType.SWAMP;
-
+    public static final int MOVEMENT_PENALTY= -2;
+    public static final int DEFENCE_PENALTY= -2;
+    public static final MonsterType[] MONSTER_SPAWN_TYPE= {
+            MonsterType.SEMI_STRONG,
+            MonsterType.STRONG
+    };
+    
     public SwampTerrain() {
         super( m_type );
     }
 
-    /**
-     * Ideas:
-     * Very Slow Movement, -2 movement cost penalty
-     * Spawns strong monsters
-     * HP reduction of -2!
-     */
+    @Override
+    public int movementPenalty() {
+        return MOVEMENT_PENALTY;
+    }
+
+    @Override
+    public int defencePenalty() {
+        return DEFENCE_PENALTY;
+    }
+
+    @Override
+    public MonsterType[] getMonsterSpawnTypes() {
+        return MONSTER_SPAWN_TYPE;
+    }
 }

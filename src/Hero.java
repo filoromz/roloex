@@ -8,7 +8,7 @@
 public class Hero extends Character {
 
     public Hero( String name, Race race ) {
-        super(name, race);
+        super( name, race );
     }
 
     @Override

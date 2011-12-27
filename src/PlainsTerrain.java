@@ -7,15 +7,27 @@
  */
 public class PlainsTerrain extends Terrain {
     public static final TerrainType m_type= TerrainType.PLAINS;
+    public static final int MOVEMENT_PENALTY= 0;
+    public static final int DEFENCE_PENALTY= 0;
+    public static final MonsterType[] MONSTER_SPAWN_TYPE= null;
 
     public PlainsTerrain() {
         super( m_type );
     }
 
-    /**
-     * Ideas:
-     * Fast Movement, ie no movement cost penalty
-     * Spawns weak monsters
-     * No effects on HP/MP
-     */
+    @Override
+    public int movementPenalty() {
+        return MOVEMENT_PENALTY;
+    }
+
+    @Override
+    public int defencePenalty() {
+        return DEFENCE_PENALTY;
+    }
+
+    @Override
+    public MonsterType[] getMonsterSpawnTypes() {
+        // Village does not spawn monsters!
+        return MONSTER_SPAWN_TYPE;
+    }
 }

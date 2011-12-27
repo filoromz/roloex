@@ -17,4 +17,9 @@ public abstract class Terrain {
     {
         return m_type;
     }
+    
+    public abstract int movementPenalty();
+    public abstract int defencePenalty();
+    public abstract MonsterType[] getMonsterSpawnTypes();
+    
 }
