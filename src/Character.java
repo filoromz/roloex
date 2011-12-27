@@ -83,7 +83,7 @@ public abstract class Character {
                       m_positionY==character.getPositionY()-1 ) ) { return true; }
 
             // Third column:
-            if( m_positionX==character.getPositionX()-1 &&
+            if( m_positionX==character.getPositionX()+1 &&
                     ( m_positionY==character.getPositionY()+1 ||
                       m_positionY==character.getPositionY() ||
                       m_positionY==character.getPositionY()-1 ) ) { return true; }
