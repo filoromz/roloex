@@ -15,27 +15,40 @@ public class Map {
 
     private static MapObject[][] m_map;
     
-    public Map( int x, int y ) {
-        m_map= new MapObject[x][y];
-    }
-
-    public boolean placeTerrain( Terrain terrain, int x, int y )
+//    public Map( int width, int height ) 
+    public static void init( int width, int height ) 
     {
-        if( isValidCoordinate( x, y ) )
-        {
-            if( m_map[x][y].getTerrain()==null )
-            {
-                MapObject mapObject= new MapObject();
-                mapObject.setTerrain( terrain );
-                m_map[x][y]= mapObject;
-                return true;
-            }
-            return false;
-        }
-        return false;
+    	if (width > MAX_X)
+    	{
+    		width = MAX_X;
+    	}
+    	if (height > MAX_Y)
+    	{
+    		height = MAX_Y;
+    	}
+        m_map= new MapObject[width][height];
     }
 
-    public boolean addCharacter( Character character, int x, int y )
+    public static boolean placeTerrain( Terrain terrain, int x, int y )
+    {
+        if( !isValidCoordinate( x, y ) )
+        {
+        	return false;
+        }
+        
+        // If terrain has already been set, return false
+        if( m_map[x][y] != null && m_map[x][y].getTerrain() != null )
+        {
+        	return false;
+        }
+        
+        MapObject mapObject= new MapObject();
+        mapObject.setTerrain( terrain );
+        m_map[x][y]= mapObject;
+        return true;
+    }
+
+    public static boolean addCharacter( Character character, int x, int y )
     {
         MapObject currLocation= m_map[x][y];
         if( currLocation.isCharacterListEmpty() )
@@ -60,7 +73,26 @@ public class Map {
 
     public static boolean isValidCoordinate( int x, int  y )
     {
-        return x >= MIN_X && x <= MAX_X &&
-                y >= MIN_Y && y <= MAX_Y;
+    	if (m_map == null)
+    	{
+    		return false;
+    	}
+        return x >= MIN_X && x <= getWidth() &&
+                y >= MIN_Y && y <= getHeight();
+    }
+    
+    public static int getWidth()
+    {
+    	return m_map.length;
+    }
+    
+    public static int getHeight()
+    {
+    	return m_map[0].length;
+    }
+    
+    public static Terrain getTerrain(int x, int y)
+    {
+        return m_map[x][y].getTerrain();
     }
 }
