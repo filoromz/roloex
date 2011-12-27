@@ -48,7 +48,8 @@ public class Hero extends Character {
     }
 
     @Override
-    public boolean attack() {
-        return true;
+    public int attack() {
+        // Hit between 0-2 for now with 100% accuracy!
+        return (int) ( Math.random() * 3 * m_accuracy );
     }
 }

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -14,6 +17,8 @@ public class Map {
     public final static int MAX_Y= 1000;
 
     private static MapObject[][] m_map;
+
+    private static List<Character> m_characters= new ArrayList<Character>();
     
 //    public Map( int width, int height ) 
     public static void init( int width, int height ) 
@@ -54,6 +59,7 @@ public class Map {
         if( currLocation.isCharacterListEmpty() )
         {
             currLocation.addCharacter( character );
+            m_characters.add( character );
             return true;
         }
         else
@@ -66,6 +72,7 @@ public class Map {
             else
             {
                 currLocation.addCharacter( character );
+                m_characters.add( character );
                 return true;
             }
         }
@@ -94,5 +101,10 @@ public class Map {
     public static Terrain getTerrain(int x, int y)
     {
         return m_map[x][y].getTerrain();
+    }
+    
+    public static List<Character> getCharacters()
+    {
+        return m_characters;
     }
 }

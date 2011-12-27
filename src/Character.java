@@ -20,7 +20,8 @@ public abstract class Character {
     private int m_mp;
     private Race m_race;
     private int m_defence;
-    
+
+    protected double m_accuracy;
     protected int m_positionX;
     protected int m_positionY;
     
@@ -30,12 +31,12 @@ public abstract class Character {
         m_name= name;
         m_race= race;
 
+        // Default for now:
+        m_defence= 0;
+        m_accuracy= 1.0;
+
         // increment the global id
         m_globalId++;
-
-        // randomly place him somwhere!
-        m_positionX= (int) ( Math.random() * Map.MAX_X );
-        m_positionY= (int) ( Math.random() * Map.MAX_Y );
     }
     
     public int getPositionX()
@@ -47,12 +48,50 @@ public abstract class Character {
     {
         return m_positionY;
     }
+
+    public void setPosition( int x, int y )
+    {
+        m_positionX= x;
+        m_positionY= y;
+    }
     
     // Returns true if move was successful, false otherwise.
     public abstract boolean move( Direction direction, int distance );
 
-    // Returns true if attack was successful, false otherwise.
-    public abstract boolean attack();
+    // Returns the attack damage as an int
+    public abstract int attack();
+    
+    public boolean isAdjacent( Character character )
+    {
+        if( character==null )
+        {
+            return false;
+        }
+        else
+        {
+            // Need to check if the character parameter is in 9 spots:            
+            // Top row:
+            if( m_positionX==character.getPositionX()-1 && 
+                    ( m_positionY==character.getPositionY()+1 ||
+                      m_positionY==character.getPositionY() ||
+                      m_positionY==character.getPositionY()-1 ) ) { return true; }
+            
+            // Middle row:
+            if( m_positionY==character.getPositionY() &&
+                    ( m_positionX==character.getPositionX()+1 ||
+                      m_positionX==character.getPositionX() ||
+                      m_positionX==character.getPositionX()-1 ) ) { return true; }
+
+            // Bottom row:
+            if( m_positionY==character.getPositionY()-1 &&
+                    ( m_positionX==character.getPositionX()-1 ||
+                      m_positionX==character.getPositionX() ||
+                      m_positionX==character.getPositionX()+1 ) ) { return true; }
+
+            // Failed the previous 3 if statements, therefore is not adjacent!
+            return false;
+        }
+    }
 
     // Default changeHP, can be overridden by concrete classes -- eg. some races might have tougher skin, etc.
     public void changeHP( int value ) {
@@ -80,6 +119,16 @@ public abstract class Character {
         {
             m_mp= MINIMUM_MP;
         }
+    }
+    
+    public int getHP()
+    {
+        return m_hp;
+    }
+    
+    public int getMP()
+    {
+        return m_mp;
     }
 
     public boolean isDead() {
