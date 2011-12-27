@@ -70,23 +70,23 @@ public abstract class Character {
         else
         {
             // Need to check if the character parameter is in 9 spots:            
-            // Top row:
+            // First column:
             if( m_positionX==character.getPositionX()-1 && 
                     ( m_positionY==character.getPositionY()+1 ||
                       m_positionY==character.getPositionY() ||
                       m_positionY==character.getPositionY()-1 ) ) { return true; }
             
-            // Middle row:
-            if( m_positionY==character.getPositionY() &&
-                    ( m_positionX==character.getPositionX()+1 ||
-                      m_positionX==character.getPositionX() ||
-                      m_positionX==character.getPositionX()-1 ) ) { return true; }
+            // Second column:
+            if( m_positionX==character.getPositionX() &&
+                    ( m_positionY==character.getPositionY()+1 ||
+                      m_positionY==character.getPositionY() ||
+                      m_positionY==character.getPositionY()-1 ) ) { return true; }
 
-            // Bottom row:
-            if( m_positionY==character.getPositionY()-1 &&
-                    ( m_positionX==character.getPositionX()-1 ||
-                      m_positionX==character.getPositionX() ||
-                      m_positionX==character.getPositionX()+1 ) ) { return true; }
+            // Third column:
+            if( m_positionX==character.getPositionX()-1 &&
+                    ( m_positionY==character.getPositionY()+1 ||
+                      m_positionY==character.getPositionY() ||
+                      m_positionY==character.getPositionY()-1 ) ) { return true; }
 
             // Failed the previous 3 if statements, therefore is not adjacent!
             return false;
