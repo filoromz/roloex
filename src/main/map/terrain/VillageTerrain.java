@@ -1,3 +1,6 @@
+package main.map.terrain;
+import main.character.MonsterType;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel

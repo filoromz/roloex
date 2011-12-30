@@ -1,3 +1,6 @@
+package main.character;
+import main.map.Map;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel

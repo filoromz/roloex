@@ -1,5 +1,9 @@
+package main.map;
 import java.util.ArrayList;
 import java.util.List;
+
+import main.character.Character;
+import main.map.terrain.Terrain;
 
 /**
  * Created by IntelliJ IDEA.

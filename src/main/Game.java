@@ -1,5 +1,16 @@
+package main;
 import java.util.Random;
 import java.util.Scanner;
+
+
+import main.character.Character;
+import main.character.Direction;
+import main.character.Hero;
+import main.character.Race;
+import main.map.Map;
+import main.map.terrain.Terrain;
+import main.map.terrain.TerrainFactory;
+import main.map.terrain.TerrainType;
 
 public class Game
 {

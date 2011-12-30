@@ -1,3 +1,4 @@
+package main.map.terrain;
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel

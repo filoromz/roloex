@@ -1,3 +1,4 @@
+package main;
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel

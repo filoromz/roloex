@@ -1,3 +1,5 @@
+package main.map.terrain;
+
 
 public class TerrainFactory
 {

@@ -1,3 +1,4 @@
+package main.character;
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
