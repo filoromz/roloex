@@ -9,10 +9,10 @@ import main.character.MonsterType;
  * To change this template use File | Settings | File Templates.
  */
 public class VillageTerrain extends Terrain {
-    public static final TerrainType m_type= TerrainType.VILLAGE;
-    public static final int MOVEMENT_PENALTY= 0;
-    public static final int DEFENCE_PENALTY= 0;
-    public static final MonsterType[] MONSTER_SPAWN_TYPE= null;
+    private static final TerrainType m_type= TerrainType.VILLAGE;
+    private static final int MOVEMENT_PENALTY= 0;
+    private static final int DEFENCE_PENALTY= 0;
+    private static final MonsterType[] MONSTER_SPAWN_TYPE= null;
 
     public VillageTerrain() {
         super( m_type );
