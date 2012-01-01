@@ -1,5 +1,7 @@
 package main.character;
 
+import main.item.Item;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +27,8 @@ public abstract class Character {
     private int m_mp;
     private Race m_race;
     private int m_defence;
-    protected Map<String, Integer> m_items;
+    protected Map<Item, Integer> m_items;
+    protected Map<String, Item> m_stringToItems;
 
     protected double m_accuracy;
     protected int m_positionX;
@@ -43,10 +46,11 @@ public abstract class Character {
 
         // increment the global id
         m_globalId++;
-        m_items= new HashMap<String, Integer>();
+        m_items= new HashMap<Item, Integer>();
+        m_stringToItems = new HashMap<String, Item>();
     }
     
-    public Map<String, Integer> getItems()
+    public Map<Item, Integer> getItems()
     {
         return m_items;
     }

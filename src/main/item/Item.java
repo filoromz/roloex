@@ -10,11 +10,13 @@ package main.item;
 public abstract class Item {
     private String m_name;
     protected ItemType m_type;
-    
-    public Item( String name, ItemType type )
+    protected String m_symbol;
+
+    public Item( String name, ItemType type, String symbol )
     {
         m_name= name;
         m_type= type;
+        m_symbol= symbol;
     }
 
     // Use the Item
@@ -24,5 +26,8 @@ public abstract class Item {
     {
         return m_name;
     }
-    
+
+    public String getSymbol() {
+        return m_symbol;
+    }
 }

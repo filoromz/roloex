@@ -11,6 +11,7 @@ public class HeartOfOfferingItem extends Item {
     // There should only be one instance of this Item!
     private static final String ITEM_NAME= "Heart Of Offering";
     private static final ItemType ITEM_TYPE= ItemType.ONCE_ONLY;
+    private static final String ITEM_SYMBOL= "hoo";
 
     private static HeartOfOfferingItem ourInstance= new HeartOfOfferingItem();
 
@@ -19,7 +20,7 @@ public class HeartOfOfferingItem extends Item {
     }
 
     private HeartOfOfferingItem() {
-        super( ITEM_NAME, ITEM_TYPE );
+        super( ITEM_NAME, ITEM_TYPE, ITEM_SYMBOL );
     }
 
     @Override

@@ -10,9 +10,10 @@ package main.item;
 public class DummyItem extends Item {
     private static final String ITEM_NAME= "Dummy Item";
     private static final ItemType ITEM_TYPE= ItemType.REUSABLE;
+    private static final String ITEM_SYMBOL= "dummy";
 
     public DummyItem() {
-        super(ITEM_NAME, ITEM_TYPE);
+        super( ITEM_NAME, ITEM_TYPE, ITEM_SYMBOL );
     }
 
     @Override

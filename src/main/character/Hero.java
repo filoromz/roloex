@@ -3,7 +3,9 @@ package main.character;
 import main.item.Item;
 import main.map.WorldMap;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -63,21 +65,27 @@ public class Hero extends Character {
     // pickUp method for a single item with a particular quantity.
     public void pickUp( Item item, int quantity )
     {
+        // Need to store two types of HashMaps. One which will map the String name of the item with the Item instance and one which will map the Item instance with its quantity.
+        // We need the HashMap<String,Item> because we can't use Item as a key as Java recognises each new Item instance as a different 'key' and we will get duplicates in the HashMap.
         String itemName= item.getName();
-        if (m_items.containsKey(itemName))
+        if ( m_stringToItems.containsKey(itemName) )
         {
+            // Need to get the reference to the first Item object stored in the HashMap or else we'll have duplicates!
+            Item tempItem= m_stringToItems.get( itemName );
+            
             // Just increment the quantity of the item.
-            int qty = m_items.get(itemName) + quantity;
-            m_items.put(itemName, qty);
+            int qty= m_items.get(tempItem) + quantity;
+            m_items.put(tempItem, qty);
 
-            System.out.println("ITEM=" + item.getName() + " QTY=" + m_items.get(itemName));
+            System.out.println( "ITEM=" + tempItem.getName() + " QTY=" + m_items.get( tempItem ) );
         }
         else
         {
-            System.out.println("Adding " + item.getName() + " to Character's stash.");
-            m_items.put(itemName, quantity);
+            System.out.println( "Adding " + item.getName() + " to Character " + this.getName() + " stash." );
+            m_items.put( item, quantity );
+            m_stringToItems.put( itemName, item );
 
-            System.out.println("ITEM=" + item.getName() + " QTY=" + m_items.get(itemName));
+            System.out.println("ITEM=" + item.getName() + " QTY=" + m_items.get(item));
         }
     }
 
@@ -90,7 +98,48 @@ public class Hero extends Character {
         }
     }
 
-    public boolean hasItem( Item item ) {
-        return m_items.containsKey( item.getName() );
+    public Item getItemFromSymbol( String itemSymbol ) {
+        Set set= m_items.entrySet();
+        Iterator setIterator= set.iterator();
+
+        while( setIterator.hasNext() )
+        {
+            Map.Entry me= (Map.Entry) setIterator.next();
+            Item tempItem= (Item) me.getKey();
+            if( tempItem.getSymbol().equals( itemSymbol ) )
+            {
+                return tempItem;
+            }
+        }        
+        return null;
+    }
+
+    public void printItems() {
+        Set set= m_items.entrySet();
+        Iterator setIterator= set.iterator();
+        
+        while( setIterator.hasNext() )
+        {
+            Map.Entry me= (Map.Entry) setIterator.next();
+            Item tempItem= (Item) me.getKey();
+            System.out.println( tempItem.getName() + " (" + tempItem.getSymbol() + ") (Qty: " + me.getValue() + ")" );
+        }
+    }
+
+    public void useItem( String userItem )
+    {
+        // Character has the item, we can use it!
+        Item tempItem= getItemFromSymbol( userItem );
+
+        if( tempItem!=null )
+        {
+            tempItem.use();
+        }
+        else
+        {
+            System.out.println( "The Character does not have the item!" );
+        }
+
+        //TODO: need to deduct the quantity OR remove the item from the HashMap
     }
 }
