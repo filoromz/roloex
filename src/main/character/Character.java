@@ -1,4 +1,8 @@
 package main.character;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -21,6 +25,7 @@ public abstract class Character {
     private int m_mp;
     private Race m_race;
     private int m_defence;
+    protected Map<String, Integer> m_items;
 
     protected double m_accuracy;
     protected int m_positionX;
@@ -38,6 +43,12 @@ public abstract class Character {
 
         // increment the global id
         m_globalId++;
+        m_items= new HashMap<String, Integer>();
+    }
+    
+    public Map<String, Integer> getItems()
+    {
+        return m_items;
     }
     
     public int getPositionX()

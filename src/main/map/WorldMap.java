@@ -1,9 +1,9 @@
 package main.map;
-import java.util.ArrayList;
-import java.util.List;
-
 import main.character.Character;
 import main.map.terrain.Terrain;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +12,7 @@ import main.map.terrain.Terrain;
  * Time: 11:20 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Map {
+public class WorldMap {
     //Represents the map where Character and Terrain objects are placed on.
     public final static int MIN_X=0;
     public final static int MAX_X= 1000;
@@ -24,7 +24,7 @@ public class Map {
 
     private static List<Character> m_characters= new ArrayList<Character>();
     
-//    public Map( int width, int height ) 
+//    public WorldMap( int width, int height )
     public static void init( int width, int height ) 
     {
     	if (width > MAX_X)

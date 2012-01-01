@@ -3,7 +3,9 @@ import main.character.Character;
 import main.character.Direction;
 import main.character.Hero;
 import main.character.Race;
-import main.map.Map;
+import main.item.DummyItem;
+import main.item.HeartOfOfferingItem;
+import main.map.WorldMap;
 import main.map.terrain.Terrain;
 import main.map.terrain.TerrainFactory;
 import main.map.terrain.TerrainType;
@@ -27,23 +29,23 @@ public class Game
         character2.changeHP( 10 );
 
         // randomly place them somwhere!
-        character.setPosition( (int)( Math.random() * Map.getWidth() ), (int)( Math.random() * Map.getHeight() ) );
-        character2.setPosition( (int)( Math.random() * Map.getWidth()), (int)( Math.random() * Map.getHeight() ) );
+        character.setPosition( (int)( Math.random() * WorldMap.getWidth() ), (int)( Math.random() * WorldMap.getHeight() ) );
+        character2.setPosition( (int)( Math.random() * WorldMap.getWidth()), (int)( Math.random() * WorldMap.getHeight() ) );
         
         // Add them to the map!
-        Map.addCharacter( character, character.getPositionX(), character.getPositionY() );
-        Map.addCharacter( character2, character2.getPositionX(), character2.getPositionY() );
+        WorldMap.addCharacter(character, character.getPositionX(), character.getPositionY());
+        WorldMap.addCharacter(character2, character2.getPositionX(), character2.getPositionY());
     }
 
     private void generateMap()
     {
         //Creating a 10x10 map for now
-		Map.init(10, 10);
+		WorldMap.init(10, 10);
 		int terrainTypeCount = TerrainType.values().length;
 		Random random = new Random();
-		for(int i = 0; i < Map.getHeight(); i++)
+		for(int i = 0; i < WorldMap.getHeight(); i++)
 		{
-			for(int j = 0; j < Map.getWidth(); j++)
+			for(int j = 0; j < WorldMap.getWidth(); j++)
 			{
 				placeRandomTerrain(terrainTypeCount, random, i, j);
 			}
@@ -56,16 +58,21 @@ public class Game
         int value = random.nextInt(terrainTypeCount);
         TerrainType terrainType = TerrainType.values()[value];
         Terrain terrain = TerrainFactory.getTerrain(terrainType);
-        Map.placeTerrain(terrain, y, x);
+        WorldMap.placeTerrain(terrain, y, x);
         
         System.out.print(terrain.getTerrainType() + ",");
     }
 
     public void run() throws InterruptedException {
         //Rommel is the HERO.. hehee
-        Character character= Map.getCharacters().get(0);
+        Hero character= (Hero) WorldMap.getCharacters().get(0);
         //Barlow is the ENEMY :O
-        Character character2= Map.getCharacters().get(1);
+        Character character2= WorldMap.getCharacters().get(1);
+
+        System.out.println( "Picking up items for demonstration purposes..." );
+        character.pickUp( new DummyItem(), 3 );
+        character.pickUp( new DummyItem(), 1 );
+        character.pickUp( new DummyItem(), 2 );
 
         Scanner scanner= new Scanner( System.in );
         int userDirection;
@@ -127,6 +134,11 @@ public class Game
         else
         {
             System.out.println( "OMG! Congratulations! YOU HAVE DEFEATED THE BOSS! HOOOO!" );
+            character.pickUp( HeartOfOfferingItem.getInstance(), 1 );
+            if( character.hasItem( HeartOfOfferingItem.getInstance() ) )
+            {
+                HeartOfOfferingItem.getInstance().use();
+            }
         }
     }
 }
