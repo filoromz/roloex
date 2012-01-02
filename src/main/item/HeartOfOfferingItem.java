@@ -1,5 +1,7 @@
 package main.item;
 
+import java.util.HashMap;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -24,9 +26,10 @@ public class HeartOfOfferingItem extends Item {
     }
 
     @Override
-    public void use() {
+    public HashMap<ItemEffects, Integer> use() {
         // This is a once only item
         System.out.println( "Congratulations! You have won! Thanks for playing!" );
         System.exit(0);
+        return null;
     }
 }

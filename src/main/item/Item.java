@@ -1,5 +1,7 @@
 package main.item;
 
+import java.util.HashMap;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -20,7 +22,7 @@ public abstract class Item {
     }
 
     // Use the Item
-    public abstract void use();
+    public abstract HashMap<ItemEffects,Integer> use();
     
     public String getName()
     {
@@ -29,5 +31,10 @@ public abstract class Item {
 
     public String getSymbol() {
         return m_symbol;
+    }
+    
+    public ItemType getType()
+    {
+        return m_type;
     }
 }

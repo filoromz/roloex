@@ -5,6 +5,7 @@ import main.character.Hero;
 import main.character.Race;
 import main.item.DummyItem;
 import main.item.HeartOfOfferingItem;
+import main.item.PotionItem;
 import main.map.WorldMap;
 import main.map.terrain.Terrain;
 import main.map.terrain.TerrainFactory;
@@ -74,7 +75,7 @@ public class Game
         System.out.println( "Picking up items for demonstration purposes..." );
         character.pickUp( new DummyItem(), 3 );
         character.pickUp( new DummyItem(), 1 );
-        character.pickUp( new DummyItem(), 2 );
+        character.pickUp( new PotionItem(), 2 );
 
         Scanner scanner= new Scanner( System.in );
         Scanner lineScanner;

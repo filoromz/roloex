@@ -1,5 +1,7 @@
 package main.item;
 
+import java.util.HashMap;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -17,7 +19,8 @@ public class DummyItem extends Item {
     }
 
     @Override
-    public void use() {
+    public HashMap<ItemEffects, Integer> use() {
         System.out.println( "DummyItem is used" );
+        return null;
     }
 }

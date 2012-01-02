@@ -1,8 +1,11 @@
 package main.character;
 
 import main.item.Item;
+import main.item.ItemEffects;
+import main.item.ItemType;
 import main.map.WorldMap;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -130,10 +133,37 @@ public class Hero extends Character {
     {
         // Character has the item, we can use it!
         Item tempItem= getItemFromSymbol( userItem );
+        HashMap<ItemEffects,Integer> itemEffects;
 
         if( tempItem!=null )
         {
-            tempItem.use();
+            itemEffects= tempItem.use();
+            if( itemEffects!=null )
+            {
+                // Check item effects
+                if( itemEffects.containsKey( ItemEffects.INCREASE_HP ) )
+                {
+                    this.changeHP(itemEffects.get(ItemEffects.INCREASE_HP));
+                    System.out.println( this.getName() + "'s HP has increased to " + this.getHP() );
+
+                    if( tempItem.getType().equals( ItemType.ONCE_ONLY ) )
+                    {
+                        // Need to remove it from the character's stash!
+                        int value= m_items.get( tempItem ) - 1;
+                        if( value==0 )
+                        {
+                            // need to remove the item reference from the characters stash!
+                            m_items.remove( tempItem );
+                        }
+                        else
+                        {
+                            // else, put the new updated value!
+                            m_items.put( tempItem, value );
+                        }
+                    }
+                }
+                //TODO: complete this massive if statement! lol.
+            }
         }
         else
         {
