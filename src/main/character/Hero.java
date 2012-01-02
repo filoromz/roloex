@@ -141,9 +141,9 @@ public class Hero extends Character {
             if( itemEffects!=null )
             {
                 // Check item effects
-                if( itemEffects.containsKey( ItemEffects.INCREASE_HP ) )
+                if( itemEffects.containsKey( ItemEffects.HP ) )
                 {
-                    this.changeHP(itemEffects.get(ItemEffects.INCREASE_HP));
+                    this.changeHP( itemEffects.get( ItemEffects.HP ) );
                     System.out.println( this.getName() + "'s HP has increased to " + this.getHP() );
 
                     if( tempItem.getType().equals( ItemType.ONCE_ONLY ) )

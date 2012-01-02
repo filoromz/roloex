@@ -17,7 +17,7 @@ public class PotionItem extends Item {
     private static final HashMap<ItemEffects,Integer> m_effects= new HashMap<ItemEffects, Integer>()
     {
         {
-            put( ItemEffects.INCREASE_HP, 5 );
+            put( ItemEffects.HP, 5 );
         }
     };
             
