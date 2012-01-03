@@ -106,7 +106,15 @@ public class Game
                 }
                 else
                 {
-                    userDirection= Integer.parseInt( lineScanner.next() );
+                    try
+                    {
+                        userDirection= Integer.parseInt( lineScanner.next() );
+                    }
+                    catch( NumberFormatException e )
+                    {
+                        System.out.println( "An error occured when trying to parse your move command! " + e.getMessage() );
+                        userDirection= -1;
+                    }
                 }
                 
                 switch( userDirection )
