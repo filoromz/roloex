@@ -1,5 +1,6 @@
 package main.character;
 
+import main.GUI;
 import main.item.Item;
 import main.item.ItemEffects;
 import main.item.ItemType;
@@ -80,15 +81,15 @@ public class Hero extends Character {
             int qty= m_items.get(tempItem) + quantity;
             m_items.put(tempItem, qty);
 
-            System.out.println( "ITEM=" + tempItem.getName() + " QTY=" + m_items.get( tempItem ) );
+            GUI.displayInventory("ITEM=" + tempItem.getName() + " QTY=" + m_items.get(tempItem) + "\n");
         }
         else
         {
-            System.out.println( "Adding " + item.getName() + " to Character " + this.getName() + " stash." );
+            GUI.displayInventory( "Adding " + item.getName() + " to Character " + this.getName() + " stash. \n" );
             m_items.put( item, quantity );
             m_stringToItems.put( itemName, item );
 
-            System.out.println("ITEM=" + item.getName() + " QTY=" + m_items.get(item));
+            GUI.displayInventory("ITEM=" + item.getName() + " QTY=" + m_items.get(item) + "\n");
         }
     }
 
@@ -125,7 +126,7 @@ public class Hero extends Character {
         {
             Map.Entry me= (Map.Entry) setIterator.next();
             Item tempItem= (Item) me.getKey();
-            System.out.println( tempItem.getName() + " (" + tempItem.getSymbol() + ") (Qty: " + me.getValue() + ")" );
+            GUI.displayText( tempItem.getName() + " (" + tempItem.getSymbol() + ") (Qty: " + me.getValue() + ")\n" );
         }
     }
 
@@ -144,7 +145,7 @@ public class Hero extends Character {
                 if( itemEffects.containsKey( ItemEffects.HP ) )
                 {
                     this.changeHP( itemEffects.get( ItemEffects.HP ) );
-                    System.out.println( this.getName() + "'s HP has increased to " + this.getHP() );
+                    GUI.displayText( this.getName() + "'s HP has increased to " + this.getHP() + "\n" );
 
                     if( tempItem.getType().equals( ItemType.ONCE_ONLY ) )
                     {
@@ -167,7 +168,7 @@ public class Hero extends Character {
         }
         else
         {
-            System.out.println( "The Character does not have the item!" );
+            GUI.displayText( "The Character does not have the item!\n" );
         }
 
         //TODO: need to deduct the quantity OR remove the item from the HashMap

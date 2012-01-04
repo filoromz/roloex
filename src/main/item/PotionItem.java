@@ -1,5 +1,7 @@
 package main.item;
 
+import main.GUI;
+
 import java.util.HashMap;
 
 /**
@@ -27,7 +29,7 @@ public class PotionItem extends Item {
 
     @Override
     public HashMap<ItemEffects,Integer> use() {
-        System.out.println( "Red Potion is used" );
+        GUI.displayText("Red Potion is used \n");
         return m_effects;
     }
 }

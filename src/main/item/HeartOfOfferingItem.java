@@ -1,5 +1,7 @@
 package main.item;
 
+import main.GUI;
+
 import java.util.HashMap;
 
 /**
@@ -28,8 +30,7 @@ public class HeartOfOfferingItem extends Item {
     @Override
     public HashMap<ItemEffects, Integer> use() {
         // This is a once only item
-        System.out.println( "Congratulations! You have won! Thanks for playing!" );
-        System.exit(0);
+        GUI.displayText("Congratulations! You have won! Thanks for playing!\n");
         return null;
     }
 }

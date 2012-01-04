@@ -11,13 +11,20 @@ import main.map.terrain.Terrain;
 import main.map.terrain.TerrainFactory;
 import main.map.terrain.TerrainType;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Game
+public class Game implements ActionListener
 {
+    public static String userCommand= null;
+    public static String userArg= null;
+    //public static String userItem= null;
+
 	public void init()
 	{
+        GUI.jtfInput.addActionListener(this);
 	    generateMap(); //TODO: Make this less hacky
         generateCharacters(); //TODO: Make this less hacky
 	}
@@ -50,7 +57,7 @@ public class Game
 			{
 				placeRandomTerrain(terrainTypeCount, random, i, j);
 			}
-			System.out.println();
+            GUI.displayMap("\n");
 		}
     }
 
@@ -60,8 +67,8 @@ public class Game
         TerrainType terrainType = TerrainType.values()[value];
         Terrain terrain = TerrainFactory.getTerrain(terrainType);
         WorldMap.placeTerrain(terrain, x, y);
-        
-        System.out.print(terrain.getTerrainType() + ",");
+
+        GUI.displayMap( terrain.getTerrainType() + "," );
     }
 
     public void run() throws InterruptedException {
@@ -72,47 +79,52 @@ public class Game
         //Barlow is holding the HOO!
         character2.pickUp( HeartOfOfferingItem.getInstance(), 1 );
 
-        System.out.println( "Picking up items for demonstration purposes..." );
-        character.pickUp( new DummyItem(), 3 );
+        GUI.displayText( "Picking up items for demonstration purposes... \n" );
+        character.pickUp(new DummyItem(), 3);
         character.pickUp( new DummyItem(), 1 );
         character.pickUp( new PotionItem(), 2 );
 
-        Scanner scanner= new Scanner( System.in );
         Scanner lineScanner;
-        
-        int userDirection;
-        String userCommand;
+
         String command;
-        String userItem;
-        
-        System.out.println( "Barlow's (THE BOSS) location: " + "(" + character2.getPositionX() + "," + character2.getPositionY() + ")" );
+
+        GUI.displayText("Barlow's (THE BOSS) location: " + "(" + character2.getPositionX() + "," + character2.getPositionY() + ") \n");
         
         while( !character.isDead() )
         {
-            System.out.println( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ")" );
-            System.out.println( "What do you want to do? [Available commands: 'move', 'use']" );
-            userCommand= scanner.nextLine();
+            GUI.displayText( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ") \n" );
+            GUI.displayText( "What do you want to do? [Available commands: 'move', 'use']" );
 
+            while( userCommand==null || userCommand.equals("") ) { Thread.sleep(1000); } //TODO: There HAS to be a better way than this :(
+
+            //System.out.println("We are here!");
             lineScanner= new Scanner( userCommand );
+            //System.out.println("After the lineScanner is set!");
             command= lineScanner.next();
+            //System.out.println("command=" + command );
 
             if( command.equals( "move" ) )
             {
+                int userDirection;
                 if( !lineScanner.hasNext() )
                 {
                     // Prompt the user to enter the second argument
-                    System.out.println( "Where do you want to move? (1=left, 2=up, 3=right, 4=down )" );
-                    userDirection= Integer.parseInt( scanner.nextLine() );
+                    GUI.displayText( "Where do you want to move? (1=left, 2=up, 3=right, 4=down ) \n" );
+                    while( userArg==null || userArg.equals("") ) { Thread.sleep(1000); } //TODO: There HAS to be a better way than this :(
+                    userDirection= Integer.parseInt( userArg );
+                    userCommand=null;
+                    userArg=null;
                 }
                 else
                 {
                     try
                     {
                         userDirection= Integer.parseInt( lineScanner.next() );
+                        userCommand=null;
                     }
                     catch( NumberFormatException e )
                     {
-                        System.out.println( "An error occured when trying to parse your move command! " + e.getMessage() );
+                        GUI.displayText( "An error occured when trying to parse your move command! " + e.getMessage() + "\n" );
                         userDirection= -1;
                     }
                 }
@@ -133,28 +145,37 @@ public class Game
                         break;
                     default:
                         //don't move the character
-                        System.out.println( "Invalid move!" );
+                        GUI.displayText( "Invalid move! \n" );
                         break;
                 }                
             }
             else if( command.equals( "use" ) )
             {
+                String userItem;
                 if( !lineScanner.hasNext() )
                 {
                     // Prompt the user to enter the second argument and list the available items.
-                    System.out.println( "Which item do you want to use?" );
+                    GUI.displayText( "Which item do you want to use? \n" );
                     character.printItems();
-                    userItem= scanner.nextLine();
+                    while( userArg==null || userArg.equals("") )
+                    { Thread.sleep(1000); }
+                    userItem= userArg;
+                    userCommand=null;
+                    userArg=null;
                 }
                 else
                 {
                     userItem= lineScanner.next();
+                    userCommand=null;
+                    userArg=null;
                 }
                 character.useItem( userItem );
             }
             else
             {
-                System.out.println( "Invalid command. Please try again" );
+                GUI.displayText( "Invalid command. Please try again \n" );
+                userCommand=null;
+                userArg=null;
             }
             
             if( character.isAdjacent( character2 ) && !character2.isDead() )
@@ -166,7 +187,7 @@ public class Game
 
     private void simulateBattle( Hero character, Hero character2 ) throws InterruptedException {
         // Battle Simulation between two Character objects            
-        System.out.println( "OMG! It's a ROLO battle!" );
+        GUI.displayText("OMG! It's a ROLO battle! \n");
         int tempAttack;
         while( !( character.isDead() || character2.isDead() ) )
         {
@@ -174,28 +195,39 @@ public class Game
             {
                 tempAttack= character.attack();
                 character2.changeHP( -tempAttack );
-                System.out.println( character.getName() + " attacks " + character2.getName() + "! " + character2.getName() + " loses " + tempAttack + " HP points. " +
-                        " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() );
+                GUI.displayText(character.getName() + " attacks " + character2.getName() + "! " + character2.getName() + " loses " + tempAttack + " HP points. " +
+                        " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
             }
 
             if( !character2.isDead() )
             {
                 tempAttack= character2.attack();
                 character.changeHP( -tempAttack );
-                System.out.println( character2.getName() + " retaliates and hits " + character.getName() + "! " + character.getName() + " loses " + tempAttack + " HP points." +
-                        " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() );
+                GUI.displayText(character2.getName() + " retaliates and hits " + character.getName() + "! " + character.getName() + " loses " + tempAttack + " HP points." +
+                        " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
             }
             Thread.sleep( 1000 );
         }
 
         if( character.isDead() )
         {
-            System.out.println( " Awww.. Game over, you died :(" );
+            GUI.displayText(" Awww.. Game over, you died :( \n");
         }
         else
         {
-            System.out.println( "OMG! Congratulations! YOU HAVE DEFEATED THE BOSS! HOOOO!" );
+            GUI.displayText("OMG! Congratulations! YOU HAVE DEFEATED THE BOSS! HOOOO! \n");
             character.pickUp( character2.getItems() );
+        }
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if( userCommand==null )
+        {
+            userCommand= GUI.jtfInput.getText();
+        }
+        else
+        {
+            userArg= GUI.jtfInput.getText();
         }
     }
 }
