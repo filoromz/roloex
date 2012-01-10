@@ -15,7 +15,7 @@ public class PlainsTerrain extends Terrain {
     private static final MonsterType[] MONSTER_SPAWN_TYPE= null;
 
     public PlainsTerrain() {
-        super( m_type );
+        super( m_type, "P" );
     }
 
     @Override

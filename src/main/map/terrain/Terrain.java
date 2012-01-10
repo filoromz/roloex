@@ -10,15 +10,22 @@ import main.character.MonsterType;
  */
 public abstract class Terrain {
     private TerrainType m_type;
+    private String m_mapSymbol;
 
-    public Terrain( TerrainType type )
+    public Terrain( TerrainType type, String symbol )
     {
         m_type= type;
+        m_mapSymbol= symbol;
     }
 
     public TerrainType getTerrainType()
     {
         return m_type;
+    }
+    
+    public String getMapSymbol()
+    {
+        return m_mapSymbol;
     }
     
     public abstract int movementPenalty();

@@ -1,6 +1,7 @@
 package main;
 
 import javax.swing.*;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -14,7 +15,7 @@ import java.awt.event.*;
 public class GUI implements ActionListener {
     public static JTextField jtfInput;
     public static JTextArea jtAreaOutput;
-    public static JTextArea jtMap;
+    public static JEditorPane jtMap;
     public static JTextArea jtInventory;
     public static String newline = "\n";
     public GUI() {
@@ -23,6 +24,8 @@ public class GUI implements ActionListener {
     public void createGui() {
         //Make the window:
         JFrame frame= new JFrame("ROLOEX RPG v1.0");
+        frame.setPreferredSize( new Dimension(1200,500) );
+        frame.setResizable( false );
         frame.addWindowListener( new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -32,7 +35,8 @@ public class GUI implements ActionListener {
 
         jtfInput = new JTextField(75);
         jtfInput.addActionListener(this);
-        jtAreaOutput = new JTextArea(50, 75);
+
+        jtAreaOutput = new JTextArea(25, 75);
         jtAreaOutput.setCaretPosition(jtAreaOutput.getDocument()
                 .getLength());
         jtAreaOutput.setEditable(false);
@@ -41,19 +45,28 @@ public class GUI implements ActionListener {
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 
-        jtMap = new JTextArea(25, 50);
+        jtMap = new JEditorPane("text/html","");
         jtMap.setCaretPosition(jtMap.getDocument()
                 .getLength());
         jtMap.setEditable(false);
 
 
-        jtInventory = new JTextArea(25, 50);
+        jtInventory = new JTextArea(10, 30);
         jtInventory.setCaretPosition(jtInventory.getDocument()
                 .getLength());
         jtInventory.setEditable(false);
 
+        JScrollPane scrollPane2 = new JScrollPane(jtInventory,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         // TO autoscroll down.
         scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            }});
+
+        scrollPane2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
             public void adjustmentValueChanged(AdjustmentEvent e) {
                 e.getAdjustable().setValue(e.getAdjustable().getMaximum());
             }});
@@ -75,13 +88,13 @@ public class GUI implements ActionListener {
         gridCons1.anchor= GridBagConstraints.NORTH;
         gridCons1.gridx=1;
         gridCons1.gridy=0;
+        gridCons1.fill= GridBagConstraints.HORIZONTAL;
         contentPane.add(jtMap, gridCons1);
-        displayMap( "~ WORLD MAP ~ \n\n" );
 
         gridCons1.anchor= GridBagConstraints.SOUTH;
         gridCons1.gridx=1;
         gridCons1.gridy=0;
-        contentPane.add(jtInventory, gridCons1);
+        contentPane.add(scrollPane2, gridCons1);
         displayInventory( "~ ITEM EVENTS ~ \n\n" );
 
         frame.pack();
@@ -100,10 +113,19 @@ public class GUI implements ActionListener {
     }
 
     public static void displayMap(String s) {
-        jtMap.append(s);
+        jtMap.setText(s);
     }
 
     public static void displayInventory(String s) {
         jtInventory.append(s);
+    }
+
+    public static void clearMap() {
+        Document doc = jtMap.getDocument();
+        try {
+            doc.remove(0,doc.getLength());
+        }
+        catch(Throwable e) { }
+        //TODO: We should probably catch this!!
     }
 }

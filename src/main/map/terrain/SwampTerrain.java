@@ -18,7 +18,7 @@ public class SwampTerrain extends Terrain {
     };
     
     public SwampTerrain() {
-        super( m_type );
+        super( m_type, "S" );
     }
 
     @Override

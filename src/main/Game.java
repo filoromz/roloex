@@ -1,5 +1,4 @@
 package main;
-import main.character.Character;
 import main.character.Direction;
 import main.character.Hero;
 import main.character.Race;
@@ -18,22 +17,23 @@ import java.util.Scanner;
 
 public class Game implements ActionListener
 {
-    public static String userCommand= null;
-    public static String userArg= null;
-    //public static String userItem= null;
-
+    Hero character;
+    Hero character2;
+    
 	public void init()
 	{
         GUI.jtfInput.addActionListener(this);
 	    generateMap(); //TODO: Make this less hacky
         generateCharacters(); //TODO: Make this less hacky
+
+        refreshMap( character );
 	}
 
     private void generateCharacters() {
         // Hack this in for now for demonstration purposes ;D...
-        Character character= new Hero( "Rommel", Race.HUMAN );
+        character= new Hero( "Rommel", Race.HUMAN );
         character.changeHP( 10 );
-        Character character2= new Hero( "Barlow", Race.HUMAN );
+        character2= new Hero( "Barlow", Race.HUMAN );
         character2.changeHP( 10 );
 
         // randomly place them somewhere!
@@ -57,7 +57,6 @@ public class Game implements ActionListener
 			{
 				placeRandomTerrain(terrainTypeCount, random, i, j);
 			}
-            GUI.displayMap("\n");
 		}
     }
 
@@ -67,8 +66,39 @@ public class Game implements ActionListener
         TerrainType terrainType = TerrainType.values()[value];
         Terrain terrain = TerrainFactory.getTerrain(terrainType);
         WorldMap.placeTerrain(terrain, x, y);
+    }
+    
+    private void refreshMap( Hero character )
+    {
+        StringBuilder sb= new StringBuilder();
+        
+        GUI.clearMap();
+        sb.append("~ WORLD MAP ~ <br><br>");
 
-        GUI.displayMap( terrain.getTerrainType() + "," );
+        for(int i= 0; i != WorldMap.getHeight(); i++)
+        {
+            for(int j= 0; j != WorldMap.getWidth(); j++)
+            {
+                
+                if( character.getPositionX()==j && character.getPositionY()==i )
+                {
+                    if( character2.getPositionX()==j && character2.getPositionY()==i )
+                    { sb.append( "<b>[E/C]</b>" ); }
+                    else
+                    { sb.append( "<b>[C]</b>" ); }
+                }
+                else
+                {
+                    if( character2.getPositionX()==j && character2.getPositionY()==i )
+                    { sb.append( "<b>[E]</b>" ); }
+                    else
+                    { sb.append( "[" + WorldMap.getTerrain( j, i ).getMapSymbol() + "]" ); }
+                }
+            }
+            sb.append( "<br>" );
+        }
+        
+        GUI.displayMap( sb.toString() );
     }
 
     public void run() throws InterruptedException {
@@ -80,116 +110,20 @@ public class Game implements ActionListener
         character2.pickUp( HeartOfOfferingItem.getInstance(), 1 );
 
         GUI.displayText( "Picking up items for demonstration purposes... \n" );
-        character.pickUp(new DummyItem(), 3);
         character.pickUp( new DummyItem(), 1 );
         character.pickUp( new PotionItem(), 2 );
-
-        Scanner lineScanner;
-
-        String command;
+        character.pickUp( new PotionItem(), 2 );
 
         GUI.displayText("Barlow's (THE BOSS) location: " + "(" + character2.getPositionX() + "," + character2.getPositionY() + ") \n");
-        
-        while( !character.isDead() )
-        {
-            GUI.displayText( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ") \n" );
-            GUI.displayText( "What do you want to do? [Available commands: 'move', 'use']" );
-
-            while( userCommand==null || userCommand.equals("") ) { Thread.sleep(1000); } //TODO: There HAS to be a better way than this :(
-
-            //System.out.println("We are here!");
-            lineScanner= new Scanner( userCommand );
-            //System.out.println("After the lineScanner is set!");
-            command= lineScanner.next();
-            //System.out.println("command=" + command );
-
-            if( command.equals( "move" ) )
-            {
-                int userDirection;
-                if( !lineScanner.hasNext() )
-                {
-                    // Prompt the user to enter the second argument
-                    GUI.displayText( "Where do you want to move? (1=left, 2=up, 3=right, 4=down ) \n" );
-                    while( userArg==null || userArg.equals("") ) { Thread.sleep(1000); } //TODO: There HAS to be a better way than this :(
-                    userDirection= Integer.parseInt( userArg );
-                    userCommand=null;
-                    userArg=null;
-                }
-                else
-                {
-                    try
-                    {
-                        userDirection= Integer.parseInt( lineScanner.next() );
-                        userCommand=null;
-                    }
-                    catch( NumberFormatException e )
-                    {
-                        GUI.displayText( "An error occured when trying to parse your move command! " + e.getMessage() + "\n" );
-                        userDirection= -1;
-                    }
-                }
-                
-                switch( userDirection )
-                {
-                    case 1:
-                        character.move( Direction.LEFT, 1 );
-                        break;
-                    case 2:
-                        character.move( Direction.UP, 1 );
-                        break;
-                    case 3:
-                        character.move( Direction.RIGHT, 1 );
-                        break;
-                    case 4:
-                        character.move( Direction.DOWN, 1 );
-                        break;
-                    default:
-                        //don't move the character
-                        GUI.displayText( "Invalid move! \n" );
-                        break;
-                }                
-            }
-            else if( command.equals( "use" ) )
-            {
-                String userItem;
-                if( !lineScanner.hasNext() )
-                {
-                    // Prompt the user to enter the second argument and list the available items.
-                    GUI.displayText( "Which item do you want to use? \n" );
-                    character.printItems();
-                    while( userArg==null || userArg.equals("") )
-                    { Thread.sleep(1000); }
-                    userItem= userArg;
-                    userCommand=null;
-                    userArg=null;
-                }
-                else
-                {
-                    userItem= lineScanner.next();
-                    userCommand=null;
-                    userArg=null;
-                }
-                character.useItem( userItem );
-            }
-            else
-            {
-                GUI.displayText( "Invalid command. Please try again \n" );
-                userCommand=null;
-                userArg=null;
-            }
-            
-            if( character.isAdjacent( character2 ) && !character2.isDead() )
-            {
-                simulateBattle( character, character2 );
-            }
-        }
+        GUI.displayText( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ") \n" );
+        GUI.displayText( "What do you want to do? [Available commands: 'move', 'use'] \n" );
     }
 
     private void simulateBattle( Hero character, Hero character2 ) throws InterruptedException {
         // Battle Simulation between two Character objects            
         GUI.displayText("OMG! It's a ROLO battle! \n");
         int tempAttack;
-        while( !( character.isDead() || character2.isDead() ) )
+        if( !( character.isDead() || character2.isDead() ) )
         {
             if( !character.isDead() )
             {
@@ -206,14 +140,14 @@ public class Game implements ActionListener
                 GUI.displayText(character2.getName() + " retaliates and hits " + character.getName() + "! " + character.getName() + " loses " + tempAttack + " HP points." +
                         " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
             }
-            Thread.sleep( 1000 );
         }
 
         if( character.isDead() )
         {
             GUI.displayText(" Awww.. Game over, you died :( \n");
         }
-        else
+        
+        if( character2.isDead() )
         {
             GUI.displayText("OMG! Congratulations! YOU HAVE DEFEATED THE BOSS! HOOOO! \n");
             character.pickUp( character2.getItems() );
@@ -221,13 +155,90 @@ public class Game implements ActionListener
     }
 
     public void actionPerformed(ActionEvent e) {
-        if( userCommand==null )
-        {
-            userCommand= GUI.jtfInput.getText();
+        try {
+            step( GUI.jtfInput.getText() );
+            refreshMap( character );
+        } 
+        catch ( InterruptedException ex ) {
+            System.out.println( "Could not step through the game! " + ex.getMessage() );
         }
-        else
+    }
+
+    private void step( String userCommand ) throws InterruptedException {
+        String command;
+        Scanner lineScanner;
+        if( !character.isDead() )
         {
-            userArg= GUI.jtfInput.getText();
+            lineScanner= new Scanner( userCommand );
+            command= lineScanner.next();
+
+            if( command.equals( "move" ) )
+            {
+                int userDirection;
+                if( !lineScanner.hasNext() )
+                {
+                    // Prompt the user to enter the second argument
+                    GUI.displayText( "Please enter a direction on where you want to move: (1=left, 2=up, 3=right, 4=down ) Eg. move 4 \n" );
+                }
+                else
+                {
+                    try
+                    {
+                        userDirection= Integer.parseInt( lineScanner.next() );
+                    }
+                    catch( NumberFormatException e )
+                    {
+                        GUI.displayText( "An error occured when trying to parse your move command! " + e.getMessage() + "\n" );
+                        userDirection= -1;
+                    }
+
+                    switch( userDirection )
+                    {
+                        case 1:
+                            character.move( Direction.LEFT, 1 );
+                            break;
+                        case 2:
+                            character.move( Direction.UP, 1 );
+                            break;
+                        case 3:
+                            character.move( Direction.RIGHT, 1 );
+                            break;
+                        case 4:
+                            character.move( Direction.DOWN, 1 );
+                            break;
+                        default:
+                            //don't move the character
+                            GUI.displayText( "Invalid move! \n" );
+                            break;
+                    }
+                }
+            }
+            else if( command.equals( "use" ) )
+            {
+                String userItem;
+                if( !lineScanner.hasNext() )
+                {
+                    // Prompt the user to enter the second argument and list the available items.
+                    GUI.displayText( "Please select which item do you want to use? use <item-name> \n" );
+                    character.printItems();
+                }
+                else
+                {
+                    userItem= lineScanner.next();
+                    character.useItem( userItem );
+                }
+            }
+            else
+            {
+                GUI.displayText( "Invalid command. Please try again \n" );
+            }
+
+            if( character.isAdjacent( character2 ) && !character2.isDead() )
+            {
+                simulateBattle( character, character2 );
+            }
         }
+        GUI.displayText( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ") \n" );
+        GUI.displayText( "What do you want to do? [Available commands: 'move', 'use'] \n" );
     }
 }

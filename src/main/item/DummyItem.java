@@ -1,5 +1,7 @@
 package main.item;
 
+import main.GUI;
+
 import java.util.HashMap;
 
 /**
@@ -20,7 +22,7 @@ public class DummyItem extends Item {
 
     @Override
     public HashMap<ItemEffects, Integer> use() {
-        System.out.println( "DummyItem is used" );
+        GUI.displayText("DummyItem is used \n");
         return null;
     }
 }

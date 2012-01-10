@@ -88,8 +88,8 @@ public class WorldMap {
     	{
     		return false;
     	}
-        return x >= MIN_X && x <= getWidth() &&
-                y >= MIN_Y && y <= getHeight();
+        return x >= MIN_X && x < getWidth() &&
+                y >= MIN_Y && y < getHeight();
     }
     
     public static int getWidth()
