@@ -27,8 +27,12 @@ public class Game implements ActionListener
 	{
         Action moveUp= new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                character.move( Direction.UP, 1 );
-                refreshMap( character );
+                if( !character.isDead() )
+                {
+                    character.move( Direction.UP, 1 );
+                    refreshMap( character );
+                }
+
                 try {
                     step( "keypress" );
                 } catch (InterruptedException e1) {
@@ -38,8 +42,12 @@ public class Game implements ActionListener
 
         Action moveDown= new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                character.move( Direction.DOWN, 1 );
-                refreshMap( character );
+                if( !character.isDead() )
+                {
+                    character.move( Direction.DOWN, 1 );
+                    refreshMap( character );
+                }
+
                 try {
                     step( "keypress" );
                 } catch (InterruptedException e1) {
@@ -49,8 +57,12 @@ public class Game implements ActionListener
 
         Action moveLeft= new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                character.move( Direction.LEFT, 1 );
-                refreshMap( character );
+                if( !character.isDead() )
+                {
+                    character.move( Direction.LEFT, 1 );
+                    refreshMap( character );
+                }
+
                 try {
                     step( "keypress" );
                 } catch (InterruptedException e1) {
@@ -60,8 +72,12 @@ public class Game implements ActionListener
 
         Action moveRight= new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                character.move( Direction.RIGHT, 1 );
-                refreshMap( character );
+                if( !character.isDead() )
+                {
+                    character.move( Direction.RIGHT, 1 );
+                    refreshMap( character );
+                }
+
                 try {
                     step( "keypress" );
                 } catch (InterruptedException e1) {

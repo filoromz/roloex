@@ -11,7 +11,7 @@ Welcome to ROLOEX-RPG! This is just an RPG-like game designed by a couple of bor
 
 # 1.1 Storyline ( Work in progress )
 You control a Hero and you must venture out into the unknown lands of Amaroo.
- Your main mission is to recover the Shield Of Honour (SOH) forged by a group of mysterious High Elves who call themselves the Shnits.
+Your main mission is to recover the Heart of Offering (HOO!) forged by a group of mysterious High Elves who call themselves the Shnits.
 
 # 2.0 Gameplay
 At the moment, the gameplay will be console-based, where you feed in user-input and a system prompt or response is given in the console.
@@ -24,5 +24,7 @@ here will also be a Village where the Hero can rest and regain all their HP/MP
 
 # 4.0 Implementation
 At the moment, the implementation of this RPG-like game is 100% purely done in JAVA :)
-But we have thoughts of pushing this to a more proper game engine and possibly a GUI-like feature in the future! Stay tuned!
+The GUI is implemented using the standard Java Swing and AWT libraries.
+
+
 
