@@ -1,4 +1,5 @@
 package main;
+
 import main.character.Direction;
 import main.character.Hero;
 import main.character.Race;
@@ -10,8 +11,10 @@ import main.map.terrain.Terrain;
 import main.map.terrain.TerrainFactory;
 import main.map.terrain.TerrainType;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -22,7 +25,61 @@ public class Game implements ActionListener
     
 	public void init()
 	{
+        Action moveUp= new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                character.move( Direction.UP, 1 );
+                refreshMap( character );
+                try {
+                    step( "keypress" );
+                } catch (InterruptedException e1) {
+                }
+            }
+        };
+
+        Action moveDown= new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                character.move( Direction.DOWN, 1 );
+                refreshMap( character );
+                try {
+                    step( "keypress" );
+                } catch (InterruptedException e1) {
+                }
+            }
+        };
+
+        Action moveLeft= new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                character.move( Direction.LEFT, 1 );
+                refreshMap( character );
+                try {
+                    step( "keypress" );
+                } catch (InterruptedException e1) {
+                }
+            }
+        };
+
+        Action moveRight= new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                character.move( Direction.RIGHT, 1 );
+                refreshMap( character );
+                try {
+                    step( "keypress" );
+                } catch (InterruptedException e1) {
+                }
+            }
+        };
+
         GUI.jtfInput.addActionListener(this);
+
+        GUI.jtfInput.getInputMap().put( KeyStroke.getKeyStroke(KeyEvent.VK_UP,0), "movedown" ); //NOTE: THIS IS A HACK! ARROW KEY UP MEANS DECREASE Y-ORDINATE!
+        GUI.jtfInput.getInputMap().put( KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0), "moveup" ); //NOTE: THIS IS A HACK! ARROW KEY DOWN MEANS INCREASE Y-ORDINATE!
+        GUI.jtfInput.getInputMap().put( KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0), "moveleft" );
+        GUI.jtfInput.getInputMap().put( KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0), "moveright" );
+        GUI.jtfInput.getActionMap().put( "moveup", moveUp );
+        GUI.jtfInput.getActionMap().put( "movedown", moveDown );
+        GUI.jtfInput.getActionMap().put( "moveleft", moveLeft );
+        GUI.jtfInput.getActionMap().put( "moveright", moveRight );
+
 	    generateMap(); //TODO: Make this less hacky
         generateCharacters(); //TODO: Make this less hacky
 
@@ -82,14 +139,14 @@ public class Game implements ActionListener
                 
                 if( character.getPositionX()==j && character.getPositionY()==i )
                 {
-                    if( character2.getPositionX()==j && character2.getPositionY()==i )
+                    if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
                     { sb.append( "<b>[E/C]</b>" ); }
                     else
                     { sb.append( "<b>[C]</b>" ); }
                 }
                 else
                 {
-                    if( character2.getPositionX()==j && character2.getPositionY()==i )
+                    if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
                     { sb.append( "<b>[E]</b>" ); }
                     else
                     { sb.append( "[" + WorldMap.getTerrain( j, i ).getMapSymbol() + "]" ); }
@@ -120,37 +177,40 @@ public class Game implements ActionListener
     }
 
     private void simulateBattle( Hero character, Hero character2 ) throws InterruptedException {
-        // Battle Simulation between two Character objects            
-        GUI.displayText("OMG! It's a ROLO battle! \n");
-        int tempAttack;
-        if( !( character.isDead() || character2.isDead() ) )
+        if( character.isAdjacent( character2 ) && !character2.isDead() )
         {
-            if( !character.isDead() )
+            // Battle Simulation between two Character objects
+            GUI.displayText("OMG! It's a ROLO battle! \n");
+            int tempAttack;
+            if( !( character.isDead() || character2.isDead() ) )
             {
-                tempAttack= character.attack();
-                character2.changeHP( -tempAttack );
-                GUI.displayText(character.getName() + " attacks " + character2.getName() + "! " + character2.getName() + " loses " + tempAttack + " HP points. " +
-                        " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
+                if( !character.isDead() )
+                {
+                    tempAttack= character.attack();
+                    character2.changeHP( -tempAttack );
+                    GUI.displayText(character.getName() + " attacks " + character2.getName() + "! " + character2.getName() + " loses " + tempAttack + " HP points. " +
+                            " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
+                }
+
+                if( !character2.isDead() )
+                {
+                    tempAttack= character2.attack();
+                    character.changeHP( -tempAttack );
+                    GUI.displayText(character2.getName() + " retaliates and hits " + character.getName() + "! " + character.getName() + " loses " + tempAttack + " HP points." +
+                            " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
+                }
             }
 
-            if( !character2.isDead() )
+            if( character.isDead() )
             {
-                tempAttack= character2.attack();
-                character.changeHP( -tempAttack );
-                GUI.displayText(character2.getName() + " retaliates and hits " + character.getName() + "! " + character.getName() + " loses " + tempAttack + " HP points." +
-                        " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
+                GUI.displayText(" Awww.. Game over, you died :( \n");
             }
-        }
 
-        if( character.isDead() )
-        {
-            GUI.displayText(" Awww.. Game over, you died :( \n");
-        }
-        
-        if( character2.isDead() )
-        {
-            GUI.displayText("OMG! Congratulations! YOU HAVE DEFEATED THE BOSS! HOOOO! \n");
-            character.pickUp( character2.getItems() );
+            if( character2.isDead() )
+            {
+                GUI.displayText("OMG! Congratulations! YOU HAVE DEFEATED THE BOSS! HOOOO! \n");
+                character.pickUp( character2.getItems() );
+            }
         }
     }
 
@@ -228,17 +288,16 @@ public class Game implements ActionListener
                     character.useItem( userItem );
                 }
             }
+            //Character should automatically move
+            else if( command.equals( "keypress" ) ) { }
             else
             {
                 GUI.displayText( "Invalid command. Please try again \n" );
             }
 
-            if( character.isAdjacent( character2 ) && !character2.isDead() )
-            {
-                simulateBattle( character, character2 );
-            }
+            simulateBattle( character, character2 );
         }
         GUI.displayText( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ") \n" );
-        GUI.displayText( "What do you want to do? [Available commands: 'move', 'use'] \n" );
+        GUI.displayText( "What do you want to do? [Available commands: 'move' (or with arrow keys), 'use'] \n" );
     }
 }
