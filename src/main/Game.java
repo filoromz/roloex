@@ -196,7 +196,6 @@ public class Game implements ActionListener
         if( character.isAdjacent( character2 ) && !character2.isDead() )
         {
             // Battle Simulation between two Character objects
-            GUI.displayText("OMG! It's a ROLO battle! \n");
             int tempAttack;
             if( !( character.isDead() || character2.isDead() ) )
             {
@@ -312,8 +311,13 @@ public class Game implements ActionListener
             }
 
             simulateBattle( character, character2 );
+
+            //Don't spam the console if user is using arrow presses
+            if( !command.equals( "keypress" ) )
+            {
+                GUI.displayText( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ") \n" );
+                GUI.displayText( "What do you want to do? [Available commands: 'move' (or with arrow keys), 'use'] \n" );
+            }
         }
-        GUI.displayText( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ") \n" );
-        GUI.displayText( "What do you want to do? [Available commands: 'move' (or with arrow keys), 'use'] \n" );
     }
 }
