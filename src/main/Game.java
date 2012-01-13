@@ -12,6 +12,8 @@ import main.map.terrain.TerrainFactory;
 import main.map.terrain.TerrainType;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -116,6 +118,27 @@ public class Game implements ActionListener
         // Add them to the map!
         WorldMap.addCharacter(character, character.getPositionX(), character.getPositionY());
         WorldMap.addCharacter(character2, character2.getPositionX(), character2.getPositionY());
+
+        JLabel label= new JLabel( createImageIcon("resources/character.jpg", "Our Hero" ), JLabel.CENTER );
+        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+
+        //Adds from left to right, top to bottom
+        GUI.jtMap.remove(character.getPositionX() + character.getPositionY()*WorldMap.getHeight() );
+        GUI.jtMap.add(label, character.getPositionX() + character.getPositionY()*WorldMap.getHeight());
+
+        // Let's add the boss!
+        label= new JLabel( createImageIcon("resources/enemy.jpg", "BOSS" ), JLabel.CENTER );
+        GUI.jtMap.remove(character2.getPositionX() + character2.getPositionY()*WorldMap.getHeight());
+        GUI.jtMap.add(label, character2.getPositionX() + character2.getPositionY()*WorldMap.getHeight());
+
+        GridBagConstraints gridCons1 = new GridBagConstraints();
+        gridCons1.anchor= GridBagConstraints.NORTH;
+        gridCons1.gridx=1;
+        gridCons1.gridy=0;
+        GUI.m_frame.getContentPane().add( GUI.jtMap, gridCons1 );
+
+        GUI.m_frame.pack();
+        GUI.m_frame.setVisible(true);
     }
 
     private void generateMap()
@@ -139,14 +162,38 @@ public class Game implements ActionListener
         TerrainType terrainType = TerrainType.values()[value];
         Terrain terrain = TerrainFactory.getTerrain(terrainType);
         WorldMap.placeTerrain(terrain, x, y);
+        
+        JLabel label= new JLabel( createImageIcon("resources/" + terrain.getMapSymbol() + ".jpg", terrain.getMapSymbol() ), JLabel.CENTER );
+        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+
+        //Adds from left to right, top to bottom
+        GUI.jtMap.add(label);
+
+        GridBagConstraints gridCons1 = new GridBagConstraints();
+        gridCons1.anchor= GridBagConstraints.NORTH;
+        gridCons1.gridx=1;
+        gridCons1.gridy=0;
+        GUI.m_frame.getContentPane().add( GUI.jtMap, gridCons1 );
+
+        GUI.m_frame.pack();
+        GUI.m_frame.setVisible(true);
     }
-    
+
+    /** Returns an ImageIcon, or null if the path was invalid. */
+    protected ImageIcon createImageIcon(String path,
+                                        String description) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
+
     private void refreshMap( Hero character )
     {
-        StringBuilder sb= new StringBuilder();
-        
-        GUI.clearMap();
-        sb.append("~ WORLD MAP ~ <br><br>");
+        JLabel label;
 
         for(int i= 0; i != WorldMap.getHeight(); i++)
         {
@@ -156,22 +203,50 @@ public class Game implements ActionListener
                 if( character.getPositionX()==j && character.getPositionY()==i )
                 {
                     if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
-                    { sb.append( "<b>[E/C]</b>" ); }
+                    {
+                        //Hero should be on top
+                        label= new JLabel( createImageIcon("resources/character.jpg", "Hero" ), JLabel.CENTER );
+                        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+                        GUI.jtMap.remove( j + i*WorldMap.getHeight() );
+                        GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
+                    }
                     else
-                    { sb.append( "<b>[C]</b>" ); }
+                    {
+                        label= new JLabel( createImageIcon("resources/character.jpg", "Hero" ), JLabel.CENTER );
+                        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+                        GUI.jtMap.remove( j + i*WorldMap.getHeight() );
+                        GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
+                    }
                 }
                 else
                 {
                     if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
-                    { sb.append( "<b>[E]</b>" ); }
+                    {
+                        label= new JLabel( createImageIcon("resources/enemy.jpg", "BOSS" ), JLabel.CENTER );
+                        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+                        GUI.jtMap.remove( j + i*WorldMap.getHeight() );
+                        GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
+                    }
                     else
-                    { sb.append( "[" + WorldMap.getTerrain( j, i ).getMapSymbol() + "]" ); }
+                    {
+                        //TODO: In future, we can just refresh just the one tile that the character was on previous turn.
+                        label= new JLabel( createImageIcon("resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg", "Hero" ), JLabel.CENTER );
+                        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+                        GUI.jtMap.remove( j + i*WorldMap.getHeight() );
+                        GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
+                    }
                 }
             }
-            sb.append( "<br>" );
         }
-        
-        GUI.displayMap( sb.toString() );
+
+        GridBagConstraints gridCons1 = new GridBagConstraints();
+        gridCons1.anchor= GridBagConstraints.NORTH;
+        gridCons1.gridx=1;
+        gridCons1.gridy=0;
+        GUI.m_frame.getContentPane().add( GUI.jtMap, gridCons1 );
+
+        GUI.m_frame.pack();
+        GUI.m_frame.setVisible(true);
     }
 
     public void run() throws InterruptedException {

@@ -19,7 +19,7 @@ public class ForestTerrain extends Terrain {
     };
     
     public ForestTerrain() {
-        super( m_type, "F" );
+        super( m_type, "forest" );
     }
 
     @Override

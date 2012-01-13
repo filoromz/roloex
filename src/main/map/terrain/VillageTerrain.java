@@ -15,7 +15,7 @@ public class VillageTerrain extends Terrain {
     private static final MonsterType[] MONSTER_SPAWN_TYPE= null;
 
     public VillageTerrain() {
-        super( m_type, "V" );
+        super( m_type, "village" );
     }
     
     @Override
