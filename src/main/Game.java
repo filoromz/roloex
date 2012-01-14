@@ -16,6 +16,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -118,7 +120,7 @@ public class Game implements ActionListener
         WorldMap.addCharacter(character, character.getPositionX(), character.getPositionY());
         WorldMap.addCharacter(character2, character2.getPositionX(), character2.getPositionY());
 
-        JLabel label= new JLabel( createImageIcon("resources/character.jpg", "Our Hero" ), JLabel.CENTER );
+        JLabel label= new JLabel( createImageIcon("resources/character.png", "Our Hero" ), JLabel.CENTER );
 
         //Adds from left to right, top to bottom
         GUI.jtMap.remove(character.getPositionX() + character.getPositionY()*WorldMap.getHeight() );
@@ -179,7 +181,7 @@ public class Game implements ActionListener
     /** Returns an ImageIcon, or null if the path was invalid. */
     protected ImageIcon createImageIcon(String path,
                                         String description) {
-        java.net.URL imgURL = getClass().getResource(path);
+        URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL, description);
         } else {
@@ -202,13 +204,45 @@ public class Game implements ActionListener
                     if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
                     {
                         //Hero should be on top
-                        label= new JLabel( createImageIcon("resources/character.jpg", "Hero" ), JLabel.CENTER );
+                        /**
+                         * Read a background image
+                         */
+                        BufferedImage bgImage = getBufferedImageFromImage( createImageIcon( "resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg", "Terrain" ).getImage() ); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg");
+
+                        /**
+                         * Read a foreground image
+                         */
+                        BufferedImage fgImage = getBufferedImageFromImage( createImageIcon( "resources/character.png", "Hero" ).getImage() ); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/character.png");
+
+                        /**
+                         * Do the overlay of foreground image on background image
+                         */
+                        BufferedImage overlayedImage = ImageOverlay.overlayImages(bgImage, fgImage);
+                        ImageIcon icon= new ImageIcon( overlayedImage );
+
+                        label= new JLabel( icon, JLabel.CENTER );
                         GUI.jtMap.remove( j + i*WorldMap.getHeight() );
                         GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
                     }
                     else
                     {
-                        label= new JLabel( createImageIcon("resources/character.jpg", "Hero" ), JLabel.CENTER );
+                        /**
+                         * Read a background image
+                         */
+                        BufferedImage bgImage = getBufferedImageFromImage( createImageIcon( "resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg", "Terrain" ).getImage() ); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg");
+
+                        /**
+                         * Read a foreground image
+                         */
+                        BufferedImage fgImage = getBufferedImageFromImage( createImageIcon( "resources/character.png", "Hero" ).getImage() ); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/character.png");
+
+                        /**
+                         * Do the overlay of foreground image on background image
+                         */
+                        BufferedImage overlayedImage = ImageOverlay.overlayImages(bgImage, fgImage);
+                        ImageIcon icon= new ImageIcon( overlayedImage );
+
+                        label= new JLabel( icon, JLabel.CENTER );
                         GUI.jtMap.remove( j + i*WorldMap.getHeight() );
                         GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
                     }
@@ -217,15 +251,31 @@ public class Game implements ActionListener
                 {
                     if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
                     {
-                        label= new JLabel( createImageIcon("resources/enemy.jpg", "BOSS" ), JLabel.CENTER );
+                        /**
+                         * Read a background image
+                         */
+                        BufferedImage bgImage = getBufferedImageFromImage( createImageIcon( "resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg", "Terrain" ).getImage() ); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg");
+
+                        /**
+                         * Read a foreground image
+                         */
+                        BufferedImage fgImage = getBufferedImageFromImage( createImageIcon( "resources/enemy.png", "BOSS" ).getImage() ); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/character.png");
+
+                        /**
+                         * Do the overlay of foreground image on background image
+                         */
+                        BufferedImage overlayedImage = ImageOverlay.overlayImages(bgImage, fgImage);
+                        ImageIcon icon= new ImageIcon( overlayedImage );
+
+                        label= new JLabel( icon, JLabel.CENTER );
                         GUI.jtMap.remove( j + i*WorldMap.getHeight() );
                         GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
                     }
                     else
                     {
                         //TODO: In future, we can just refresh just the one tile that the character was on previous turn.
-                        label= new JLabel( createImageIcon("resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg", "Hero" ), JLabel.CENTER );
-                        GUI.jtMap.remove( j + i*WorldMap.getHeight() );
+                        label= new JLabel( createImageIcon("resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg", "Terrain" ), JLabel.CENTER );
+                        GUI.jtMap.remove(j + i * WorldMap.getHeight());
                         GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
                     }
                 }
@@ -240,6 +290,28 @@ public class Game implements ActionListener
 
         GUI.m_frame.pack();
         GUI.m_frame.setVisible(true);
+    }
+
+    private BufferedImage getBufferedImageFromImage(Image img)
+    {
+        //This line is important, this makes sure that the image is
+        //loaded fully
+        img = new ImageIcon(img).getImage();
+
+        //Create the BufferedImage object with the width and height of the Image
+        BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        //Create the graphics object from the BufferedImage
+        Graphics g = bufferedImage.createGraphics();
+
+        //Draw the image on the graphics of the BufferedImage
+        g.drawImage(img, 0, 0, null);
+
+        //Dispose the Graphics
+        g.dispose();
+
+        //return the BufferedImage
+        return bufferedImage;
     }
 
     public void run() throws InterruptedException {
