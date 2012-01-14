@@ -1,8 +1,12 @@
 package main;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,32 +43,24 @@ public class GUI implements ActionListener {
         jtfInput.addActionListener(this);
 
         jtAreaOutput = new JTextArea(35, 75);
-        jtAreaOutput.setCaretPosition(jtAreaOutput.getDocument()
-                .getLength());
         jtAreaOutput.setEditable(false);
+        // TO autoscroll down
+        DefaultCaret caret = (DefaultCaret)jtAreaOutput.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
         JScrollPane scrollPane = new JScrollPane(jtAreaOutput,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         jtInventory = new JTextArea(10, 30);
-        jtInventory.setCaretPosition(jtInventory.getDocument()
-                .getLength());
         jtInventory.setEditable(false);
+        // TO autoscroll down
+        DefaultCaret caret2 = (DefaultCaret)jtInventory.getCaret();
+        caret2.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         JScrollPane scrollPane2 = new JScrollPane(jtInventory,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        // TO autoscroll down.
-        scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-            }});
-
-        scrollPane2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-            }});
 
         GridBagLayout gridBag = new GridBagLayout();
         Container contentPane = m_frame.getContentPane();

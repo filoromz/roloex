@@ -12,7 +12,6 @@ import main.map.terrain.TerrainFactory;
 import main.map.terrain.TerrainType;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -120,7 +119,6 @@ public class Game implements ActionListener
         WorldMap.addCharacter(character2, character2.getPositionX(), character2.getPositionY());
 
         JLabel label= new JLabel( createImageIcon("resources/character.jpg", "Our Hero" ), JLabel.CENTER );
-        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
         //Adds from left to right, top to bottom
         GUI.jtMap.remove(character.getPositionX() + character.getPositionY()*WorldMap.getHeight() );
@@ -164,7 +162,6 @@ public class Game implements ActionListener
         WorldMap.placeTerrain(terrain, x, y);
         
         JLabel label= new JLabel( createImageIcon("resources/" + terrain.getMapSymbol() + ".jpg", terrain.getMapSymbol() ), JLabel.CENTER );
-        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
         //Adds from left to right, top to bottom
         GUI.jtMap.add(label);
@@ -206,14 +203,12 @@ public class Game implements ActionListener
                     {
                         //Hero should be on top
                         label= new JLabel( createImageIcon("resources/character.jpg", "Hero" ), JLabel.CENTER );
-                        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
                         GUI.jtMap.remove( j + i*WorldMap.getHeight() );
                         GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
                     }
                     else
                     {
                         label= new JLabel( createImageIcon("resources/character.jpg", "Hero" ), JLabel.CENTER );
-                        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
                         GUI.jtMap.remove( j + i*WorldMap.getHeight() );
                         GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
                     }
@@ -223,7 +218,6 @@ public class Game implements ActionListener
                     if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
                     {
                         label= new JLabel( createImageIcon("resources/enemy.jpg", "BOSS" ), JLabel.CENTER );
-                        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
                         GUI.jtMap.remove( j + i*WorldMap.getHeight() );
                         GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
                     }
@@ -231,7 +225,6 @@ public class Game implements ActionListener
                     {
                         //TODO: In future, we can just refresh just the one tile that the character was on previous turn.
                         label= new JLabel( createImageIcon("resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg", "Hero" ), JLabel.CENTER );
-                        label.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
                         GUI.jtMap.remove( j + i*WorldMap.getHeight() );
                         GUI.jtMap.add(label, j+i*WorldMap.getHeight() );
                     }
