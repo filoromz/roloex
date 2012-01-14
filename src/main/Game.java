@@ -229,12 +229,12 @@ public class Game implements ActionListener
                         /**
                          * Read a background image
                          */
-                        BufferedImage bgImage = getBufferedImageFromImage( createImageIcon( "resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg", "Terrain" ).getImage() ); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg");
+                        BufferedImage bgImage = getBufferedImageFromImage(createImageIcon("resources/" + WorldMap.getTerrain(j, i).getMapSymbol() + ".jpg", "Terrain").getImage()); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/" + WorldMap.getTerrain( j, i ).getMapSymbol() + ".jpg");
 
                         /**
                          * Read a foreground image
                          */
-                        BufferedImage fgImage = getBufferedImageFromImage( createImageIcon( "resources/character.png", "Hero" ).getImage() ); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/character.png");
+                        BufferedImage fgImage = getBufferedImageFromImage(createImageIcon("resources/character.png", "Hero").getImage()); //ImageOverlay.readImage("D:/Rommel/Desktop/roloex/src/main/resources/character.png");
 
                         /**
                          * Do the overlay of foreground image on background image
@@ -288,8 +288,22 @@ public class Game implements ActionListener
         gridCons1.gridy=0;
         GUI.m_frame.getContentPane().add( GUI.jtMap, gridCons1 );
 
+        StringBuffer sb= new StringBuffer();
+        sb.append( "<html><center><font size=5>HERO STATS</font><font size=3> <br>" );
+        sb.append( "<table>" );
+        sb.append( " <tr><td><u>Name:</u></td> <td>" + character.getName() + "</td><br>");
+        sb.append( " <td><u>Class:</u></td> <td> " + character.getRace().toString() + "</td><br>" );
+        sb.append( " <td><u>Location:</u></td> <td> (" + character.getPositionX() + "," + character.getPositionY() + ") </td></tr><br>");
+        sb.append( " <tr><td><u>HP:</u></td> <td> " + character.getHP() + "</td><br>" );
+        sb.append( " <td><u>MP:</u></td> <td> " + character.getMP() + " </td></tr><br>" );
+        sb.append(" <tr><td><u>Defence:</u></td> <td> " + character.getDefence() + "</td><br>" );
+        sb.append( " <td><u>Accuracy:</u></td> <td> " + character.getAccuracy() + "</td></tr><br></table></html>" );
+        
+        GUI.displayCharacterStatus( sb.toString() );
+
         GUI.m_frame.pack();
         GUI.m_frame.setVisible(true);
+
     }
 
     private BufferedImage getBufferedImageFromImage(Image img)

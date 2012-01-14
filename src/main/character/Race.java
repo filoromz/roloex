@@ -7,9 +7,20 @@ package main.character;
  * To change this template use File | Settings | File Templates.
  */
 public enum Race {
-    ELF,
-    HUMAN,
-    ORC,
-    UNDEAD,
-    DWARF
+    ELF("Elf"),
+    HUMAN("Human"),
+    ORC("Orc"),
+    UNDEAD("Undead"),
+    DWARF("Dwarf");
+    
+    private String m_name;
+
+    Race(String name) {
+        m_name= name;
+    }
+    
+    public String toString()
+    {
+        return m_name;
+    }
 }

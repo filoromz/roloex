@@ -165,6 +165,16 @@ public abstract class Character {
     {
         return m_race;
     }
+    
+    public double getDefence()
+    {
+        return m_defence;
+    }
+    
+    public double getAccuracy()
+    {
+        return m_accuracy;
+    }
 
     public int getId()
     {

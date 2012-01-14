@@ -23,6 +23,7 @@ public class GUI implements ActionListener {
     public static JFrame m_frame;
     public static String newline = "\n";
     public static GridLayout m_gridLayout;
+    private static JLabel m_charStatus;
 
     public GUI() {
         createGui();
@@ -31,7 +32,7 @@ public class GUI implements ActionListener {
     public void createGui() {
         //Make the window:
         m_frame= new JFrame("ROLOEX RPG v1.0");
-        m_frame.setPreferredSize( new Dimension(1300,700) );
+        m_frame.setPreferredSize( new Dimension(1300,800) );
         m_frame.setResizable( false );
         m_frame.addWindowListener( new WindowAdapter() {
             @Override
@@ -42,7 +43,7 @@ public class GUI implements ActionListener {
 
         jtfInput.addActionListener(this);
 
-        jtAreaOutput = new JTextArea(35, 75);
+        jtAreaOutput = new JTextArea(40, 75);
         jtAreaOutput.setEditable(false);
         // TO autoscroll down
         DefaultCaret caret = (DefaultCaret)jtAreaOutput.getCaret();
@@ -68,13 +69,13 @@ public class GUI implements ActionListener {
         GridBagConstraints gridCons1 = new GridBagConstraints();
 
         gridCons1.gridx=0;
-        gridCons1.gridy=1;
-        contentPane.add(jtfInput, gridCons1);
-
-        gridCons1.gridx=0;
         gridCons1.gridy=0;
         contentPane.add(scrollPane, gridCons1);
         displayText( "~ MAIN CONSOLE ~ \n\n" );
+
+        gridCons1.gridx=0;
+        gridCons1.gridy=1;
+        contentPane.add(jtfInput, gridCons1);
 
         m_gridLayout= new GridLayout(10,10);
         m_gridLayout.setHgap(0);
@@ -82,10 +83,18 @@ public class GUI implements ActionListener {
 
         jtMap= new JPanel( m_gridLayout );
 
+        m_charStatus= new JLabel();
+        GridLayout gLayout= new GridLayout(2, 1);
+
+        JPanel mapPanel= new JPanel( gLayout );
+        mapPanel.add(jtMap);
+        mapPanel.add( m_charStatus );
+        mapPanel.add( scrollPane2 );
+
         gridCons1.anchor= GridBagConstraints.SOUTH;
         gridCons1.gridx=1;
         gridCons1.gridy=0;
-        contentPane.add(scrollPane2, gridCons1);
+        contentPane.add(mapPanel, gridCons1);
         displayInventory( "~ ITEM EVENTS ~ \n\n" );
     }
 
@@ -101,6 +110,10 @@ public class GUI implements ActionListener {
 
     public static void displayInventory(String s) {
         jtInventory.append(s);
+    }
+    
+    public static void displayCharacterStatus( String s ) {
+        m_charStatus.setText( s );
     }
 
 }
