@@ -109,8 +109,10 @@ public class Game implements ActionListener
         // Hack this in for now for demonstration purposes ;D...
         character= new Hero( "Rommel", Race.HUMAN );
         character.changeHP( 10 );
+        character.changeMP( 10 );
         character2= new Hero( "Barlow", Race.HUMAN );
         character2.changeHP( 10 );
+        character2.changeMP( 10 );
 
         // randomly place them somewhere!
         character.setPosition( (int)( Math.random() * WorldMap.getWidth() ), (int)( Math.random() * WorldMap.getHeight() ) );
@@ -201,8 +203,9 @@ public class Game implements ActionListener
                 
                 if( character.getPositionX()==j && character.getPositionY()==i )
                 {
-                    // Lets change the character's defence depending on what terrain they are currently on!
-                    character.setDefence( WorldMap.getTerrain( j, i ).defencePenalty() );
+                    // Lets change the character's defence and accuracy depending on what terrain they are currently on!
+                    character.setDefence( WorldMap.getTerrain( j, i ).getDefencePenalty() );
+                    character.setAccuracy( WorldMap.getTerrain( j, i ).getAccuracyPenalty() );
 
                     if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
                     {
@@ -300,7 +303,7 @@ public class Game implements ActionListener
         sb.append( " <tr><td><u>HP:</u></td> <td> " + character.getHP() + "</td><br>" );
         sb.append( " <td><u>MP:</u></td> <td> " + character.getMP() + " </td></tr><br>" );
         sb.append(" <tr><td><u>Defence:</u></td> <td> " + character.getDefence() + "</td><br>" );
-        sb.append( " <td><u>Accuracy:</u></td> <td> " + character.getAccuracy() + "</td></tr><br></table></html>" );
+        sb.append( " <td><u>Accuracy:</u></td> <td> " + character.getAccuracy()*100 + "%</td></tr><br></table></html>" );
         
         GUI.displayCharacterStatus( sb.toString() );
         GUI.displayInventory( this, character );
@@ -360,7 +363,17 @@ public class Game implements ActionListener
                 if( !character.isDead() )
                 {
                     tempAttack= character.attack();
-                    character2.changeHP( -tempAttack + character.getDefence() );
+                    int enemyDef= character2.getDefence();
+                    if( enemyDef>=0 )
+                    {
+                        // Enemy is not affected by positive defence buffs on terrain.
+                        character2.changeHP( -tempAttack );
+                    }
+                    else
+                    {
+                        // Enemy gets extra defence off terrain thats detrimental to the Hero (eg. swamps, forest)
+                        character2.changeHP( -tempAttack - character2.getDefence() );
+                    }
                     GUI.displayText(character.getName() + " attacks " + character2.getName() + "! " + character2.getName() + " loses " + tempAttack + " HP points. " +
                             " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
                 }
@@ -369,7 +382,8 @@ public class Game implements ActionListener
                 {
                     tempAttack= character2.attack();
                     character.changeHP( -tempAttack + character.getDefence() );
-                    GUI.displayText(character2.getName() + " retaliates and hits " + character.getName() + "! " + character.getName() + " loses " + tempAttack + " HP points." +
+                    GUI.displayText(character2.getName() + " retaliates and hits " + character.getName() + " for " + tempAttack + " damage! Extra damage may be dealt because of defence penalty of " + character.getDefence() + "! \n" +
+                            character.getName() + " loses " + ( tempAttack - character.getDefence() ) + " HP points." +
                             " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
                 }
             }
@@ -400,7 +414,7 @@ public class Game implements ActionListener
     private void step( String userCommand ) throws InterruptedException {
         String command;
         Scanner lineScanner;
-        if( !character.isDead() )
+        if( !character.isDead() && !userCommand.equals("") )
         {
             lineScanner= new Scanner( userCommand );
             command= lineScanner.next();

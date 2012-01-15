@@ -181,6 +181,17 @@ public abstract class Character {
         return m_accuracy;
     }
 
+    public void setAccuracy( double accuracyPenalty ) {
+        if( accuracyPenalty!=0 )
+        {
+            m_accuracy= accuracyPenalty;
+        }
+        else
+        {
+            m_accuracy= 1.0;
+        }
+    }
+
     public int getId()
     {
         return m_id;

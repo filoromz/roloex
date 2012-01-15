@@ -28,8 +28,9 @@ public abstract class Terrain {
         return m_mapSymbol;
     }
     
-    public abstract int movementPenalty();
-    public abstract int defencePenalty();
+    public abstract int getMovementPenalty();
+    public abstract int getDefencePenalty();
+    public abstract double getAccuracyPenalty();
     public abstract MonsterType[] getMonsterSpawnTypes();
     
 }
