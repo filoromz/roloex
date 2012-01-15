@@ -11,5 +11,5 @@ public enum ItemEffects {
     HP,
     MP,
     ARMOR,
-    ACCURACY,
+    ACCURACY
 }

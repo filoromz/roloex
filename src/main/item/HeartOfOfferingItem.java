@@ -30,7 +30,16 @@ public class HeartOfOfferingItem extends Item {
     @Override
     public HashMap<ItemEffects, Integer> use() {
         // This is a once only item
-        GUI.displayText("Congratulations! You have won! Thanks for playing!\n");
+        GUI.displayText("\n\n\n\n\n");
+        GUI.displayText("Congratulations! You have won!\n\n");
+        GUI.displayText("~~~~~~~~~~~~~~~ROLOEX~~~~~~~~~~~~~~~\n");
+        GUI.displayText("Version: 1.0 \n");
+        GUI.displayText("Credits: \n");
+        GUI.displayText("Developers: Rommel Vergara, Michael Barlow, Alexander Batten \n");
+        GUI.displayText("Programming Language: Java\n");
+        GUI.displayText("Libraries Used: Swing, AWT\n");
+        GUI.displayText("Source Code: https://github.com/filoromz/roloex\n\n\n\n\n");
+        GUI.displayText("Thanks for playing!\n\n\n\n\n");
         return null;
     }
 }

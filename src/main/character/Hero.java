@@ -149,23 +149,14 @@ public class Hero extends Character {
                     this.changeHP( itemEffects.get( ItemEffects.HP ) );
                     GUI.displayText( this.getName() + "'s HP has increased to " + this.getHP() + "\n" );
 
-                    if( tempItem.getType().equals( ItemType.ONCE_ONLY ) )
-                    {
-                        // Need to remove it from the character's stash!
-                        int value= m_items.get( tempItem ) - 1;
-                        if( value==0 )
-                        {
-                            // need to remove the item reference from the characters stash!
-                            m_items.remove( tempItem );
-                        }
-                        else
-                        {
-                            // else, put the new updated value!
-                            m_items.put( tempItem, value );
-                        }
-                    }
+                    discardItem( tempItem );
                 }
                 //TODO: complete this massive if statement! lol.
+            }
+            else
+            {
+                //This item does not have any effects, Lets just discard it:
+                discardItem( tempItem );
             }
         }
         else
@@ -174,5 +165,24 @@ public class Hero extends Character {
         }
 
         //TODO: need to deduct the quantity OR remove the item from the HashMap
+    }
+    
+    public void discardItem( Item item )
+    {
+        if( item.getType().equals( ItemType.ONCE_ONLY ) )
+        {
+            // Need to remove it from the character's stash!
+            int value= m_items.get( item ) - 1;
+            if( value==0 )
+            {
+                // need to remove the item reference from the characters stash!
+                m_items.remove( item );
+            }
+            else
+            {
+                // else, put the new updated value!
+                m_items.put( item, value );
+            }
+        }
     }
 }

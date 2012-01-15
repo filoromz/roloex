@@ -25,8 +25,8 @@ public class Game implements ActionListener
 {
     Hero character;
     Hero character2;
-    
-	public void init()
+
+    public void init()
 	{
         Action moveUp= new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -304,7 +304,6 @@ public class Game implements ActionListener
 
         GUI.m_frame.pack();
         GUI.m_frame.setVisible(true);
-
     }
 
     private BufferedImage getBufferedImageFromImage(Image img)

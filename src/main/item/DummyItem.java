@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class DummyItem extends Item {
     private static final String ITEM_NAME= "Dummy Item";
-    private static final ItemType ITEM_TYPE= ItemType.REUSABLE;
+    private static final ItemType ITEM_TYPE= ItemType.ONCE_ONLY;
     private static final String ITEM_SYMBOL= "dummy";
 
     public DummyItem() {
