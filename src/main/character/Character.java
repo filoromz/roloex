@@ -166,9 +166,14 @@ public abstract class Character {
         return m_race;
     }
     
-    public double getDefence()
+    public int getDefence()
     {
         return m_defence;
+    }
+
+    public void setDefence( int defence )
+    {
+        m_defence= defence;
     }
     
     public double getAccuracy()

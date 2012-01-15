@@ -201,6 +201,9 @@ public class Game implements ActionListener
                 
                 if( character.getPositionX()==j && character.getPositionY()==i )
                 {
+                    // Lets change the character's defence depending on what terrain they are currently on!
+                    character.setDefence( WorldMap.getTerrain( j, i ).defencePenalty() );
+
                     if( character2.getPositionX()==j && character2.getPositionY()==i && !character2.isDead() )
                     {
                         //Hero should be on top
@@ -288,7 +291,7 @@ public class Game implements ActionListener
         gridCons1.gridy=0;
         GUI.m_frame.getContentPane().add( GUI.jtMap, gridCons1 );
 
-        StringBuffer sb= new StringBuffer();
+        StringBuilder sb= new StringBuilder();
         sb.append( "<html><center><font size=5>HERO STATS</font><font size=3> <br>" );
         sb.append( "<table>" );
         sb.append( " <tr><td><u>Name:</u></td> <td>" + character.getName() + "</td><br>");
@@ -357,7 +360,7 @@ public class Game implements ActionListener
                 if( !character.isDead() )
                 {
                     tempAttack= character.attack();
-                    character2.changeHP( -tempAttack );
+                    character2.changeHP( -tempAttack + character.getDefence() );
                     GUI.displayText(character.getName() + " attacks " + character2.getName() + "! " + character2.getName() + " loses " + tempAttack + " HP points. " +
                             " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
                 }
@@ -365,7 +368,7 @@ public class Game implements ActionListener
                 if( !character2.isDead() )
                 {
                     tempAttack= character2.attack();
-                    character.changeHP( -tempAttack );
+                    character.changeHP( -tempAttack + character.getDefence() );
                     GUI.displayText(character2.getName() + " retaliates and hits " + character.getName() + "! " + character.getName() + " loses " + tempAttack + " HP points." +
                             " Status; " + character.getName() + "'s HP: " + character.getHP() + " " + character2.getName() + "'s HP: " + character2.getHP() + "\n");
                 }
