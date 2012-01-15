@@ -439,6 +439,7 @@ public class Game implements ActionListener
 
     private void step( String userCommand ) throws InterruptedException
     {
+        boolean invalidCommand = false;
         String command;
         Scanner lineScanner;
         if( !character.isDead() && !userCommand.equals( "" ) )
@@ -482,6 +483,7 @@ public class Game implements ActionListener
                         default:
                             //don't move the character
                             GUI.displayText( "Invalid move! \n" );
+                            invalidCommand = true;
                             break;
                     }
                 }
@@ -494,6 +496,7 @@ public class Game implements ActionListener
                     // Prompt the user to enter the second argument and list the available items.
                     GUI.displayText( "Please select which item do you want to use? use <item-name> \n" );
                     character.printItems();
+                    invalidCommand = true;
                 }
                 else
                 {
@@ -508,9 +511,13 @@ public class Game implements ActionListener
             else
             {
                 GUI.displayText( "Invalid command. Please try again \n" );
+                invalidCommand = true;
             }
 
-            simulateBattle( character, character2 );
+            if( !invalidCommand )
+            {
+                simulateBattle( character, character2 );
+            }
 
             //Don't spam the console if user is using arrow presses
             if( !command.equals( "keypress" ) )

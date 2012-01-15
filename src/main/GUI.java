@@ -40,7 +40,7 @@ public class GUI implements ActionListener
     {
         //Make the window:
         m_frame = new JFrame( "ROLOEX RPG v1.0" );
-        m_frame.setPreferredSize( new Dimension( 1200, 600 ) );
+        m_frame.setPreferredSize( new Dimension( 1200, 700 ) );
         m_frame.setResizable( false );
         m_frame.addWindowListener( new WindowAdapter()
         {
@@ -53,7 +53,7 @@ public class GUI implements ActionListener
 
         jtfInput.addActionListener( this );
 
-        jtAreaOutput = new JTextArea( 30, 75 );
+        jtAreaOutput = new JTextArea( 35, 75 );
         jtAreaOutput.setEditable( false );
         // TO autoscroll down
         DefaultCaret caret = (DefaultCaret) jtAreaOutput.getCaret();
