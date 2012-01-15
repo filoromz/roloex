@@ -144,14 +144,14 @@ public class Game implements ActionListener
     private void generateMap()
     {
         //Creating a 10x10 map for now
-		WorldMap.init(10, 10);
+		WorldMap.init( 10, 10 );
 		int terrainTypeCount = TerrainType.values().length;
 		Random random = new Random();
-		for(int i = 0; i < WorldMap.getHeight(); i++)
+		for(int i= 0; i< WorldMap.getHeight(); i++)
 		{
-			for(int j = 0; j < WorldMap.getWidth(); j++)
+			for(int j= 0; j< WorldMap.getWidth(); j++)
 			{
-				placeRandomTerrain(terrainTypeCount, random, i, j);
+				placeRandomTerrain( terrainTypeCount, random, i, j );
 			}
 		}
     }
@@ -300,6 +300,7 @@ public class Game implements ActionListener
         sb.append( " <td><u>Accuracy:</u></td> <td> " + character.getAccuracy() + "</td></tr><br></table></html>" );
         
         GUI.displayCharacterStatus( sb.toString() );
+        GUI.displayInventory( this, character );
 
         GUI.m_frame.pack();
         GUI.m_frame.setVisible(true);
@@ -341,6 +342,7 @@ public class Game implements ActionListener
         character.pickUp( new PotionItem(), 2 );
         character.pickUp( new PotionItem(), 2 );
 
+        GUI.displayInventory( this, character );
         GUI.displayText("Barlow's (THE BOSS) location: " + "(" + character2.getPositionX() + "," + character2.getPositionY() + ") \n");
         GUI.displayText( "Your position: (" + character.getPositionX() + "," + character.getPositionY() + ") \n" );
         GUI.displayText( "What do you want to do? [Available commands: 'move', 'use'] \n" );

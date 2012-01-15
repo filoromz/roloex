@@ -81,16 +81,18 @@ public class Hero extends Character {
             int qty= m_items.get(tempItem) + quantity;
             m_items.put(tempItem, qty);
 
-            GUI.displayInventory("ITEM=" + tempItem.getName() + " QTY=" + m_items.get(tempItem) + "\n");
+            GUI.displayText("ITEM=" + tempItem.getName() + " QTY=" + m_items.get(tempItem) + "\n");
         }
         else
         {
-            GUI.displayInventory( "Adding " + item.getName() + " to Character " + this.getName() + " stash. \n" );
+            GUI.displayText( "Adding " + item.getName() + " to Character " + this.getName() + " stash. \n" );
             m_items.put( item, quantity );
             m_stringToItems.put( itemName, item );
 
-            GUI.displayInventory("ITEM=" + item.getName() + " QTY=" + m_items.get(item) + "\n");
+            GUI.displayText("ITEM=" + item.getName() + " QTY=" + m_items.get(item) + "\n");
         }
+        
+
     }
 
     // pickUp method for a 'stash' of items after killing another Character object.
