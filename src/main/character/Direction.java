@@ -1,4 +1,5 @@
 package main.character;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -6,7 +7,8 @@ package main.character;
  * Time: 11:21 PM
  * To change this template use File | Settings | File Templates.
  */
-public enum Direction {
+public enum Direction
+{
     UP,
     DOWN,
     LEFT,

@@ -8,6 +8,7 @@ package main;
  *
  * Overlays one image over another image.
  */
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageOverlay {
+public class ImageOverlay
+{
 
     /**
      * Method to overlay Images
@@ -24,8 +26,8 @@ public class ImageOverlay {
      * @param fgImage --> The foreground Image
      * @return --> overlayed image (fgImage over bgImage)
      */
-    public static BufferedImage overlayImages(BufferedImage bgImage,
-                                              BufferedImage fgImage) {
+    public static BufferedImage overlayImages( BufferedImage bgImage, BufferedImage fgImage )
+    {
 
         /**
          * Doing some preliminary validations.
@@ -34,31 +36,27 @@ public class ImageOverlay {
          *
          * returning a null value if such condition exists.
          */
-        if (fgImage.getHeight() > bgImage.getHeight()
-                || fgImage.getWidth() > fgImage.getWidth()) {
-            JOptionPane.showMessageDialog(null,
-                    "Foreground Image Is Bigger In One or Both Dimensions"
-                            + "\nCannot proceed with overlay."
-                            + "\n\n Please use smaller Image for foreground");
+        if( fgImage.getHeight()>bgImage.getHeight() || fgImage.getWidth()>fgImage.getWidth() )
+        {
+            JOptionPane.showMessageDialog( null, "Foreground Image Is Bigger In One or Both Dimensions" + "\nCannot proceed with overlay." + "\n\n Please use smaller Image for foreground" );
             return null;
         }
 
         /**Create a Graphics  from the background image**/
         Graphics2D g = bgImage.createGraphics();
         /**Set Antialias Rendering**/
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         /**
          * Draw background image at location (0,0)
          * You can change the (x,y) value as required
          */
-        g.drawImage(bgImage, 0, 0, null);
+        g.drawImage( bgImage, 0, 0, null );
 
         /**
          * Draw foreground image at location (0,0)
          * Change (x,y) value as required.
          */
-        g.drawImage(fgImage, 0, 0, null);
+        g.drawImage( fgImage, 0, 0, null );
 
         g.dispose();
         return bgImage;
@@ -66,14 +64,18 @@ public class ImageOverlay {
 
     /**
      * This method reads an image from the file
+     *
      * @param fileLocation -- > eg. "C:/testImage.jpg"
      * @return BufferedImage of the file read
      */
-    public static BufferedImage readImage(String fileLocation) {
+    public static BufferedImage readImage( String fileLocation )
+    {
         BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File(fileLocation));
-        } catch (IOException e) {
+        try
+        {
+            img = ImageIO.read( new File( fileLocation ) );
+        } catch( IOException e )
+        {
             e.printStackTrace();
         }
         return img;
@@ -81,17 +83,20 @@ public class ImageOverlay {
 
     /**
      * This method writes a buffered image to a file
-     * @param img -- > BufferedImage
+     *
+     * @param img          -- > BufferedImage
      * @param fileLocation --> e.g. "C:/testImage.jpg"
-     * @param extension --> e.g. "jpg","gif","png"
+     * @param extension    --> e.g. "jpg","gif","png"
      */
-    public static void writeImage(BufferedImage img, String fileLocation,
-                                  String extension) {
-        try {
+    public static void writeImage( BufferedImage img, String fileLocation, String extension )
+    {
+        try
+        {
             BufferedImage bi = img;
-            File outputfile = new File(fileLocation);
-            ImageIO.write(bi, extension, outputfile);
-        } catch (IOException e) {
+            File outputfile = new File( fileLocation );
+            ImageIO.write( bi, extension, outputfile );
+        } catch( IOException e )
+        {
             e.printStackTrace();
         }
     }

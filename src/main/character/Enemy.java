@@ -1,4 +1,5 @@
 package main.character;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -6,9 +7,11 @@ package main.character;
  * Time: 1:39 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Enemy extends Character {
+public abstract class Enemy extends Character
+{
 
-    public Enemy(String name, Race race) {
-        super(name, race);
+    public Enemy( String name, Race race )
+    {
+        super( name, race );
     }
 }

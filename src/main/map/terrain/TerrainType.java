@@ -1,4 +1,5 @@
 package main.map.terrain;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -6,7 +7,8 @@ package main.map.terrain;
  * Time: 4:41 PM
  * To change this template use File | Settings | File Templates.
  */
-public enum TerrainType {
+public enum TerrainType
+{
     PLAINS,
     FOREST,
     SWAMP,

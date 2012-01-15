@@ -1,4 +1,5 @@
 package main.character;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -6,7 +7,8 @@ package main.character;
  * Time: 7:36 PM
  * To change this template use File | Settings | File Templates.
  */
-public enum MonsterType {
+public enum MonsterType
+{
     WEAK,
     MEDIUM,
     SEMI_STRONG,

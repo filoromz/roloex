@@ -7,7 +7,8 @@ package main.item;
  * Time: 11:08 PM
  * To change this template use File | Settings | File Templates.
  */
-public enum ItemEffects {
+public enum ItemEffects
+{
     HP,
     MP,
     ARMOR,

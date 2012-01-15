@@ -1,4 +1,5 @@
 package main;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Rommel
@@ -6,13 +7,15 @@ package main;
  * Time: 11:17 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Main {
-    public static void main( String[] args ) throws InterruptedException {
+public class Main
+{
+    public static void main( String[] args ) throws InterruptedException
+    {
         //create the GUI first.
         new GUI();
 
-    	Game game = new Game();
-    	game.init();
+        Game game = new Game();
+        game.init();
         game.run();
     }
 }

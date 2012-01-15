@@ -1,11 +1,10 @@
 package main.map;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import main.character.Character;
 import main.map.terrain.Terrain;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,11 +13,12 @@ import main.map.terrain.Terrain;
  * Time: 11:27 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MapObject {
-    
+public class MapObject
+{
+
     //List of characters on this location
-    private List<Character> m_characters= new ArrayList<Character>();
-    
+    private List<Character> m_characters = new ArrayList<Character>();
+
     // can only have one terrain on one location.
     private Terrain m_terrain;
 
@@ -26,7 +26,7 @@ public class MapObject {
     {
         m_characters.add( character );
     }
-    
+
     public void removeCharacter( Character character )
     {
         m_characters.remove( character );
@@ -37,16 +37,17 @@ public class MapObject {
         return m_characters.isEmpty();
     }
 
-    public Terrain getTerrain() {
+    public Terrain getTerrain()
+    {
         return m_terrain;
     }
 
     public void setTerrain( Terrain terrain )
     {
-        m_terrain= terrain;
+        m_terrain = terrain;
     }
 
-    public boolean hasCharacter( Character character ) 
+    public boolean hasCharacter( Character character )
     {
         for( Character temp : m_characters )
         {

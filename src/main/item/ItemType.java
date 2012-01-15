@@ -7,7 +7,8 @@ package main.item;
  * Time: 9:27 PM
  * To change this template use File | Settings | File Templates.
  */
-public enum ItemType {
+public enum ItemType
+{
     ONCE_ONLY,
     REUSABLE
 }
