@@ -20,6 +20,7 @@ import java.util.Set;
  */
 public class Hero extends Character
 {
+    private String title;
 
     public Hero( String name, Race race )
     {
